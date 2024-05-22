@@ -1,3 +1,4 @@
+#[cfg(feature = "cli")]
 use clap::Parser;
 
 use std::sync::OnceLock;
@@ -14,19 +15,41 @@ macro_rules! log {
     };
 }
 
-pub fn cli_main(args: Args) -> Result<(), Error> {
-    SILENT.set(args.silent).unwrap();
+#[cfg(feature = "gui")]
+pub fn gui_main() -> Result<(), Error> {
+    log!("Loading...");
+    Ok(())
+}
+
+#[cfg(feature = "cli")]
+pub fn cli_main(opts: TqlOptions) -> Result<(), Error> {
+    SILENT.set(opts.silent).unwrap();
 
     log!("Loading...");
 
     Ok(())
 }
 
-#[derive(Parser, Debug)]
-#[command(author, version, about)]
+pub struct TqlOptions {
+    silent: bool,
+}
+
+impl From<Args> for TqlOptions {
+    fn from(args: Args) -> Self {
+        Self {
+            silent: args.silent,
+        }
+    }
+}
+
+#[cfg_attr(
+    feature = "cli",
+    derive(Parser, Debug),
+    command(author, version, about)
+)]
 /// TerraQuest Launcher
 pub struct Args {
     /// Silences progress "info" stderr messages.
-    #[arg(short, long)]
+    #[cfg_attr(feature = "cli", arg(short, long))]
     silent: bool,
 }

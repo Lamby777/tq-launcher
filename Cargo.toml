@@ -4,7 +4,18 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clap = { version = "4.5.4", features = ["derive"] }
+clap = { version = "4.5.4", optional = true, features = ["derive"] }
+gif = { version = "0.11.1", optional = true }
+
+[features]
+default = ["gui"]
+gui = []
+cli = []
 
 [[bin]]
 name="tql"
+required-features = ["cli"]
+
+[[bin]]
+name="tql-gui"
+required-features = ["gui"]
