@@ -1,6 +1,5 @@
+use anyhow::Result;
 use std::sync::OnceLock;
-
-type Error = Box<dyn std::error::Error>;
 
 pub(crate) static SILENT: OnceLock<bool> = OnceLock::new();
 
@@ -12,7 +11,7 @@ macro_rules! log {
     };
 }
 
-pub fn run(opts: TqlOptions) -> Result<(), Error> {
+pub fn run(opts: TqlOptions) -> Result<()> {
     SILENT.set(opts.silent).unwrap();
 
     log!("Loading...");
