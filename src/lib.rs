@@ -12,8 +12,7 @@ macro_rules! log {
     };
 }
 
-#[cfg(feature = "cli")]
-pub fn cli_main(opts: TqlOptions) -> Result<(), Error> {
+pub fn run(opts: TqlOptions) -> Result<(), Error> {
     SILENT.set(opts.silent).unwrap();
 
     log!("Loading...");

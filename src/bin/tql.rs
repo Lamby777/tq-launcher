@@ -6,7 +6,7 @@ use tq_launcher::TqlOptions;
 /// TerraQuest Launcher
 pub struct Args {
     /// Silences progress "info" stderr messages.
-    #[cfg_attr(feature = "cli", arg(short, long))]
+    #[arg(short, long)]
     silent: bool,
 }
 
@@ -16,7 +16,7 @@ fn main() {
         silent: args.silent,
     };
 
-    if let Err(e) = tq_launcher::cli_main(opts) {
+    if let Err(e) = tq_launcher::run(opts) {
         eprintln!("Error: {}", e);
         std::process::exit(1);
     }
