@@ -30,23 +30,9 @@ pub fn cli_main(opts: TqlOptions) -> Result<(), Error> {
     Ok(())
 }
 
-pub struct TqlOptions {
-    silent: bool,
-}
-
-impl From<Args> for TqlOptions {
-    fn from(args: Args) -> Self {
-        Self {
-            silent: args.silent,
-        }
-    }
-}
-
-#[cfg_attr(
-    feature = "cli",
-    derive(Parser, Debug),
-    command(author, version, about)
-)]
+#[cfg(feature = "cli")]
+#[derive(Parser, Debug)]
+#[command(author, version, about)]
 /// TerraQuest Launcher
 pub struct Args {
     /// Silences progress "info" stderr messages.
