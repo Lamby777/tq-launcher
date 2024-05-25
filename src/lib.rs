@@ -1,6 +1,3 @@
-#[cfg(feature = "cli")]
-use clap::Parser;
-
 use std::sync::OnceLock;
 
 type Error = Box<dyn std::error::Error>;
@@ -15,12 +12,6 @@ macro_rules! log {
     };
 }
 
-#[cfg(feature = "gui")]
-pub fn gui_main() -> Result<(), Error> {
-    log!("Loading...");
-    Ok(())
-}
-
 #[cfg(feature = "cli")]
 pub fn cli_main(opts: TqlOptions) -> Result<(), Error> {
     SILENT.set(opts.silent).unwrap();
@@ -30,12 +21,6 @@ pub fn cli_main(opts: TqlOptions) -> Result<(), Error> {
     Ok(())
 }
 
-#[cfg(feature = "cli")]
-#[derive(Parser, Debug)]
-#[command(author, version, about)]
-/// TerraQuest Launcher
-pub struct Args {
-    /// Silences progress "info" stderr messages.
-    #[cfg_attr(feature = "cli", arg(short, long))]
-    silent: bool,
+pub struct TqlOptions {
+    pub silent: bool,
 }

@@ -6,13 +6,12 @@ default-run = "tql_gui"
 
 [dependencies]
 clap = { version = "4.5.4", optional = true, features = ["derive"] }
-gif = { version = "0.11.1", optional = true }
 
 [features]
-# default = ["cli", "gui"]
-default = []
+default = ["cli", "gui"]
+# default = []
 gui = []
-cli = []
+cli = ["clap"]
 
 [[bin]]
 name="tql"
