@@ -14,13 +14,35 @@
     -webkit-text-size-adjust: 100%;
 }
 
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body .container:last-of-type {
+    flex-grow: 1;
+    padding-bottom: -10vh;
+}
+
 .container {
+    flex: none;
     margin: 0;
     padding-top: 5vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
+}
+
+div#cpanel {
+    display: inline;
+    flex-grow: 1;
 }
 
 .row {
@@ -50,7 +72,7 @@ h1 {
 input,
 select,
 div.instance-box,
-div#edit-panel,
+div#cpanel,
 button {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -112,14 +134,14 @@ button:active {
     input,
     select,
     div.instance-box,
-    div#edit-panel,
+    div#cpanel,
     button {
         background-color: #0f0f0f98;
     }
 
     input,
     div.instance-box,
-    div#edit-panel,
+    div#cpanel,
     button {
         color: #ffffff;
     }
