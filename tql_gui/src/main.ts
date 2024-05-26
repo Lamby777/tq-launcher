@@ -1,18 +1,17 @@
 import { invoke } from "@tauri-apps/api/tauri";
 
-const greetInputEl = document.querySelector("#greet-input");
-const greetMsgEl = document.querySelector("#greet-msg");
+const newinstInputE = document.querySelector("#newinst-input") as HTMLInputElement;
 
 const versions: string = await invoke("fetch_versions", {});
 
-async function greet() {
-    if (greetMsgEl && greetInputEl) {
-        // https://tauri.app/v1/guides/features/command
-        greetMsgEl.textContent = versions;
-    }
+async function createInstance() {
+    // https://tauri.app/v1/guides/features/command
+    if (newinstInputE?.value == "") return;
+
+    await invoke("create_instance", {});
 }
 
-document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
+document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
-    greet();
+    createInstance();
 });
