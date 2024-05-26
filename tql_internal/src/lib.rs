@@ -4,6 +4,7 @@ use std::sync::OnceLock;
 
 mod paths;
 mod reqs;
+pub use reqs::fetch_versions;
 
 const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
 
@@ -29,10 +30,6 @@ pub fn run_game(opts: TqlOptions) -> Result<()> {
     log!("Loading...");
 
     Ok(())
-}
-
-pub async fn fetch_versions() -> Result<Vec<Release>> {
-    reqs::fetch_versions().await
 }
 
 pub struct TqlOptions {
