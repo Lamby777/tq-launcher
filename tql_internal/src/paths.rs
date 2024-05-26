@@ -21,7 +21,16 @@ pub fn instances_folder() -> PathBuf {
     launcher_folder().join(INSTANCES_FOLDER_NAME)
 }
 
-pub fn os_bin_name() -> String {
+pub fn instance_folder(name: &str) -> PathBuf {
+    instances_folder().join(name)
+}
+
+pub fn executable(instance: &str) -> PathBuf {
+    let bin_name = os_bin_name();
+    instance_folder(instance).join(bin_name)
+}
+
+fn os_bin_name() -> String {
     let ending = match std::env::consts::OS {
         "macos" => "Mac OS)",
         "windows" => "Windows).exe",
