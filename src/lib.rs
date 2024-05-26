@@ -2,8 +2,13 @@ use anyhow::Result;
 use std::sync::OnceLock;
 
 mod paths;
+mod reqs;
 
 const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
+
+// For the TerraQuest repo, not the launcher!
+const TQ_REPO_OWNER: &str = "MaxineHelsel";
+const TQ_REPO_NAME: &str = "TerraQuest";
 
 pub static SILENT: OnceLock<bool> = OnceLock::new();
 
@@ -25,13 +30,8 @@ pub fn run_game(opts: TqlOptions) -> Result<()> {
     Ok(())
 }
 
-pub fn download_version(opts: TqlOptions) -> Result<()> {
-    SILENT.set(opts.silent).unwrap();
-
-    let path = paths::launcher_folder();
-    dbg!(&path);
-    log!("Downloading...");
-    Ok(())
+pub async fn fetch_versions() -> Result<()> {
+    reqs::fetch_versions().await
 }
 
 pub struct TqlOptions {

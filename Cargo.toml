@@ -10,6 +10,8 @@ clap = { version = "4.5.4", optional = true, features = ["derive"] }
 dirs = "5.0.1"
 eframe = { version = "0.27.2", optional = true }
 egui_extras = "0.27.2"
+octocrab = "0.38.0"
+tokio = { version = "1.37.0", features = ["macros", "rt-multi-thread"] }
 
 [features]
 default = ["gui"]

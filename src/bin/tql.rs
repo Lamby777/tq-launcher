@@ -1,3 +1,4 @@
+use anyhow::Result;
 use clap::Parser;
 // use tq_launcher::TqlOptions;
 
@@ -13,8 +14,10 @@ pub struct Args {
     silent: bool,
 }
 
-fn main() {
-    todo!()
+#[tokio::main]
+async fn main() -> Result<()> {
+    tq_launcher::fetch_versions().await?;
+
     // let args = Args::parse();
     // let opts = TqlOptions {
     //     silent: args.silent,
@@ -24,4 +27,6 @@ fn main() {
     //     eprintln!("Error: {}", e);
     //     std::process::exit(1);
     // }
+
+    Ok(())
 }
