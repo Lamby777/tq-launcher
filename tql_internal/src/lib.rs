@@ -16,6 +16,7 @@ pub use octocrab::models::repos::Release;
 
 mod paths;
 mod reqs;
+mod zippy;
 pub use reqs::{download_release, fetch_releases};
 
 const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";

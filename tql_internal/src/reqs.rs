@@ -4,6 +4,7 @@
 //!
 
 use core::panic;
+use std::io::Cursor;
 use std::path::Path;
 
 use anyhow::Result;
@@ -48,9 +49,11 @@ pub async fn download_release(
     let url = asset.browser_download_url.clone();
 
     let response = reqwest::get(url).await?;
-    let content = response.bytes().await?.as_ref();
+    let content = response.bytes().await?;
 
     let instance_folder = paths::instances_folder().join(instance_name);
+    crate::zippy::extract_zip(&mut Cursor::new(content), &instance_folder)?;
+
     // std::io::copy(&mut content, &mut dest)?;
     Ok(())
 }
