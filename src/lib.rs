@@ -1,10 +1,11 @@
 use anyhow::Result;
-use std::path::PathBuf;
 use std::sync::OnceLock;
+
+mod paths;
 
 const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
 
-pub(crate) static SILENT: OnceLock<bool> = OnceLock::new();
+pub static SILENT: OnceLock<bool> = OnceLock::new();
 
 macro_rules! log {
     ($($arg:tt)*) => {
@@ -14,31 +15,25 @@ macro_rules! log {
     };
 }
 
-pub fn run(opts: TqlOptions) -> Result<()> {
+pub fn run_game(opts: TqlOptions) -> Result<()> {
     SILENT.set(opts.silent).unwrap();
 
-    let path = launcher_folder();
+    let path = paths::launcher_folder();
     dbg!(&path);
     log!("Loading...");
 
     Ok(())
 }
 
-pub struct TqlOptions {
-    pub silent: bool,
+pub fn download_version(opts: TqlOptions) -> Result<()> {
+    SILENT.set(opts.silent).unwrap();
+
+    let path = paths::launcher_folder();
+    dbg!(&path);
+    log!("Downloading...");
+    Ok(())
 }
 
-/// Returns the path to do all the TQL stuff in.
-/// Makes the folder if not exists
-fn launcher_folder() -> PathBuf {
-    let data_dir = dirs::data_dir()
-        .expect("Could not find a data directory. This is a bug!");
-    let path = data_dir.join(LAUNCHER_FOLDER_NAME);
-
-    if !path.exists() {
-        std::fs::create_dir_all(&path)
-            .expect("Could not create the launcher folder");
-    }
-
-    path
+pub struct TqlOptions {
+    pub silent: bool,
 }
