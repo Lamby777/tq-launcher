@@ -44,6 +44,7 @@ h1 {
 
 input,
 select,
+div.instance-box,
 button {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -57,6 +58,11 @@ button {
     transition: border-color 0.25s;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     outline: none;
+}
+
+div.instance-box {
+    display: inline-block;
+    margin: 0.2em;
 }
 
 button {
@@ -73,7 +79,18 @@ button:active {
 }
 
 #newinst-input {
+    padding-right: 2em;
     margin-right: 5px;
+}
+
+.btn-play {
+    background-color: green;
+    color: #ffffff;
+}
+
+.btn-edit {
+    background-color: rebeccapurple;
+    color: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -88,11 +105,13 @@ button:active {
 
     input,
     select,
+    div.instance-box,
     button {
         background-color: #0f0f0f98;
     }
 
     input,
+    div.instance-box,
     button {
         color: #ffffff;
     }
