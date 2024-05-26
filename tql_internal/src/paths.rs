@@ -18,7 +18,14 @@ pub fn launcher_folder() -> PathBuf {
 }
 
 pub fn instances_folder() -> PathBuf {
-    launcher_folder().join(INSTANCES_FOLDER_NAME)
+    let path = launcher_folder().join(INSTANCES_FOLDER_NAME);
+
+    if !path.exists() {
+        std::fs::create_dir_all(&path)
+            .expect("could not create the instances folder");
+    }
+
+    path
 }
 
 pub fn instance_folder(name: &str) -> PathBuf {
