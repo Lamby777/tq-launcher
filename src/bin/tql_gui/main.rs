@@ -1,6 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 #![allow(rustdoc::missing_crate_level_docs)] // it's an example
 
+mod themes;
+
 use anyhow::Result;
 use eframe::egui;
 use tq_launcher::TqlOptions;
@@ -10,7 +12,10 @@ fn main() -> Result<()> {
 
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_inner_size([320.0, 240.0]),
+            .with_inner_size([800.0, 600.0]),
+        centered: true,
+        persist_window: true,
+
         ..Default::default()
     };
 
@@ -41,14 +46,22 @@ impl Default for App {
 
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        ctx.set_visuals(crate::themes::dark());
+
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("TQ Launcher GUI");
-            ui.horizontal(|ui| {
-                let name_label = ui.label("Version: ");
-                ui.text_edit_singleline(&mut self.version)
-                    .labelled_by(name_label.id);
+            ui.vertical_centered(|ui| {
+                ui.heading("TQ Launcher GUI");
+                ui.separator();
+
+                ui.horizontal(|ui| {
+                    ui.vertical_centered(|ui| {
+                        let name_label = ui.label("Version: ");
+                        ui.text_edit_singleline(&mut self.version)
+                            .labelled_by(name_label.id);
+                    });
+                });
+                ui.label(format!("Install version {}?", self.version));
             });
-            ui.label(format!("Install version {}?", self.version));
         });
     }
 }
