@@ -1,5 +1,7 @@
 use std::path::PathBuf;
 
+use crate::INSTANCES_FOLDER_NAME;
+
 /// Returns the path to do all the TQL stuff in.
 /// Makes the folder if not exists
 pub fn launcher_folder() -> PathBuf {
@@ -16,5 +18,16 @@ pub fn launcher_folder() -> PathBuf {
 }
 
 pub fn instances_folder() -> PathBuf {
-    launcher_folder().join("instances")
+    launcher_folder().join(INSTANCES_FOLDER_NAME)
+}
+
+pub fn os_bin_name() -> String {
+    let ending = match std::env::consts::OS {
+        "macos" => "Mac OS)",
+        "windows" => "Windows).exe",
+        "linux" => "Linux)",
+        _ => unimplemented!("platform not supported"),
+    };
+
+    format!("TerraQuest ({}", ending)
 }

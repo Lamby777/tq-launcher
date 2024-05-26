@@ -19,6 +19,7 @@ mod reqs;
 pub use reqs::{download_release, fetch_releases};
 
 const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
+const INSTANCES_FOLDER_NAME: &str = "instances";
 
 // For the TerraQuest repo, not the launcher!
 const TQ_REPO_OWNER: &str = "MaxineHelsel";
@@ -26,7 +27,7 @@ const TQ_REPO_NAME: &str = "TerraQuest";
 
 // ----------------------------------------
 
-pub fn create_instance(name: &str, release: Release) -> Result<()> {
+pub async fn create_instance(name: &str, release: Release) -> Result<()> {
     let instances = paths::instances_folder();
 
     // check if name already used
@@ -38,7 +39,7 @@ pub fn create_instance(name: &str, release: Release) -> Result<()> {
     println!("Downloading release...");
 
     // download the bin into that folder
-    download_release(name, &release);
+    download_release(name, &release).await?;
     println!("Downloaded!");
 
     Ok(())

@@ -40,31 +40,17 @@ pub async fn fetch_releases() -> Result<Vec<Release>> {
 
 /// Download a specific release binary to an instance folder.
 /// If a binary already exists, it will be overwritten.
-pub fn download_release(instance_name: &str, release: &Release) -> Result<()> {
-    let instances = paths::instances_folder();
+pub async fn download_release(
+    instance_name: &str,
+    release: &Release,
+) -> Result<()> {
+    let asset = release.assets.first().expect("no assets found");
+    let url = asset.browser_download_url.clone();
 
-    let asset = get_os_asset(&release.assets);
+    let response = reqwest::get(url).await?;
+    let content = response.bytes().await?.as_ref();
 
+    let instance_folder = paths::instances_folder().join(instance_name);
+    // std::io::copy(&mut content, &mut dest)?;
     Ok(())
-}
-
-/// filter out the binaries that are not for the current OS
-fn get_os_asset(assets: &[Asset]) -> Asset {
-    // Get the name of the OS used in release name parentheses
-    let os_paren = match std::env::consts::OS {
-        "macos" => "Mac OS",
-        "windows" => "Windows",
-        "linux" => "Linux",
-        _ => unimplemented!("platform not supported"),
-    };
-
-    let Some(found) = assets.iter().find(|a| a.name.contains(&os_paren)) else {
-        let asset_names = assets.iter().map(|a| &a.name).collect::<Vec<_>>();
-        panic!(
-            "no asset found for OS {:?}. available asset names: {:?}",
-            os_paren, asset_names
-        );
-    };
-
-    found.clone()
 }
