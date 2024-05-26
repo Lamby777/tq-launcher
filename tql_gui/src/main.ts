@@ -31,12 +31,25 @@ async function createInstance() {
         version,
     });
 
-    repopulateInstanceRow();
+    await repopulateInstanceRow();
 }
 
 document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
     createInstance();
+});
+
+let focus_debounce = false;
+// update the instance list when the window is focused
+// this is in case the user deletes an instance folder or something
+window.addEventListener("focus", async () => {
+    if (focus_debounce) return;
+
+    focus_debounce = true;
+    setTimeout(() => { focus_debounce = false; }, 1000);
+
+    console.log("Window focused");
+    await repopulateInstanceRow();
 });
 
 function populateReleases(releases: Release[]) {
