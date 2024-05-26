@@ -16,7 +16,7 @@ pub use octocrab::models::repos::Release;
 
 mod paths;
 mod reqs;
-pub use reqs::fetch_versions;
+pub use reqs::fetch_releases;
 
 const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
 

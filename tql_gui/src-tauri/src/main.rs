@@ -5,8 +5,8 @@ use tql_internal::Release;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-async fn fetch_versions() -> Vec<Release> {
-    tql_internal::fetch_versions().await.unwrap()
+async fn fetch_releases() -> Vec<Release> {
+    tql_internal::fetch_releases().await.unwrap()
 }
 
 #[tauri::command]
@@ -17,7 +17,7 @@ async fn create_instance(name: &str, version: Release) -> Result<(), ()> {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            fetch_versions,
+            fetch_releases,
             create_instance
         ])
         .run(tauri::generate_context!())
