@@ -51,9 +51,21 @@ function populateReleases(releases: Release[]) {
 async function populateInstanceRow() {
     const instances: any = await invoke("instance_names");
 
-    for (const name of instances) {
-        newInstanceBox(name);
+    if (instances.length === 0) {
+        const box = noInstancesBox();
+        instListE.appendChild(box);
+        return;
     }
+
+    for (const name of instances) {
+        const box = newInstanceBox(name);
+        instListE.appendChild(box);
+    }
+}
+
+function noInstancesBox() {
+    const tmp = document.getElementById("instance-template-none") as HTMLTemplateElement;
+    return tmp.content.cloneNode(true) as HTMLDivElement;
 }
 
 function newInstanceBox(name: string) {
@@ -63,5 +75,5 @@ function newInstanceBox(name: string) {
     const name_h2 = cloned.querySelector(".instance-name") as HTMLHeadingElement;
     name_h2.textContent = name;
 
-    instListE.appendChild(cloned);
+    return cloned;
 }
