@@ -8,6 +8,7 @@
 //! \- &Cherry, 2024
 //!
 #![allow(unused)]
+#![feature(let_chains)]
 
 use anyhow::{bail, Result};
 use std::sync::OnceLock;
@@ -44,4 +45,29 @@ pub async fn create_instance(name: &str, release: Release) -> Result<()> {
     println!("Downloaded!");
 
     Ok(())
+}
+
+/// Get the names of all valid instances
+pub fn instance_names() -> Vec<String> {
+    paths::instances_folder()
+        .read_dir()
+        .expect("could not read instances folder")
+        .filter_map(|entry| {
+            if let Ok(ref v) = entry
+                && v.path().is_dir()
+            {
+                if let fname @ Some(_) =
+                    v.file_name().to_str().map(str::to_string)
+                {
+                    return fname;
+                }
+
+                println!("instance folder name has invalid chars");
+            } else {
+                println!("could not read instance: {:?}", entry);
+            };
+
+            None
+        })
+        .collect()
 }

@@ -16,11 +16,17 @@ async fn create_instance(name: &str, version: Release) -> Result<(), ()> {
         .map_err(|_| ())
 }
 
+#[tauri::command]
+async fn instance_names() -> Vec<String> {
+    tql_internal::instance_names()
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             fetch_releases,
-            create_instance
+            create_instance,
+            instance_names,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
