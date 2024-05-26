@@ -46,7 +46,8 @@ impl Default for App {
 
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        ctx.set_visuals(crate::themes::dark());
+        ctx.set_visuals(themes::dark());
+        ctx.set_fonts(themes::fonts());
 
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {

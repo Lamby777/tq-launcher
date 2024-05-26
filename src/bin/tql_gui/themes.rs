@@ -1,61 +1,61 @@
-use eframe::egui::style::{HandleShape, NumericColorSpace, Selection, Widgets};
+use eframe::egui::style::{WidgetVisuals, Widgets};
 use eframe::egui::*;
-use eframe::epaint::Shadow;
+use eframe::epaint::Fonts;
+
+pub fn fonts() -> Fonts {
+    Fonts::new(50.0, 50, FontDefinitions::default())
+}
 
 pub fn dark() -> Visuals {
     Visuals {
+        widgets: widgets_dark(),
+
         dark_mode: true,
-        override_text_color: None,
-        widgets: Widgets::default(),
-        selection: Selection::default(),
-        hyperlink_color: Color32::from_rgb(90, 170, 255),
-        faint_bg_color: Color32::from_additive_luminance(5), // visible, but barely so
-        extreme_bg_color: Color32::from_gray(10), // e.g. TextEdit background
-        code_bg_color: Color32::from_gray(64),
-        warn_fg_color: Color32::from_rgb(255, 143, 0), // orange
-        error_fg_color: Color32::from_rgb(255, 0, 0),  // red
+        ..Visuals::dark()
+    }
+}
 
-        window_rounding: Rounding::same(6.0),
-        window_shadow: Shadow {
-            offset: vec2(10.0, 20.0),
-            blur: 15.0,
-            spread: 0.0,
-            color: Color32::from_black_alpha(96),
+fn widgets_dark() -> Widgets {
+    Widgets {
+        noninteractive: WidgetVisuals {
+            weak_bg_fill: Color32::from_gray(27),
+            bg_fill: Color32::from_gray(27),
+            bg_stroke: Stroke::new(1.0, Color32::from_gray(60)), // separators, indentation lines
+            fg_stroke: Stroke::new(1.0, Color32::from_gray(140)), // normal text color
+            rounding: Rounding::same(2.0),
+            expansion: 0.0,
         },
-        window_fill: Color32::from_gray(27),
-        window_stroke: Stroke::new(1.0, Color32::from_gray(60)),
-        window_highlight_topmost: true,
-
-        menu_rounding: Rounding::same(6.0),
-
-        panel_fill: Color32::from_gray(27),
-
-        popup_shadow: Shadow {
-            offset: vec2(6.0, 10.0),
-            blur: 8.0,
-            spread: 0.0,
-            color: Color32::from_black_alpha(96),
+        inactive: WidgetVisuals {
+            weak_bg_fill: Color32::from_gray(60), // button background
+            bg_fill: Color32::from_gray(60),      // checkbox background
+            bg_stroke: Default::default(),
+            fg_stroke: Stroke::new(1.0, Color32::from_gray(180)), // button text
+            rounding: Rounding::same(2.0),
+            expansion: 0.0,
         },
-
-        resize_corner_size: 12.0,
-
-        text_cursor: Stroke::new(2.0, Color32::from_rgb(192, 222, 255)),
-        text_cursor_preview: false,
-
-        clip_rect_margin: 3.0, // should be at least half the size of the widest frame stroke + max WidgetVisuals::expansion
-        button_frame: true,
-        collapsing_header_frame: false,
-        indent_has_left_vline: true,
-
-        striped: false,
-
-        slider_trailing_fill: false,
-        handle_shape: HandleShape::Circle,
-
-        interact_cursor: None,
-
-        image_loading_spinners: true,
-
-        numeric_color_space: NumericColorSpace::GammaByte,
+        hovered: WidgetVisuals {
+            weak_bg_fill: Color32::from_gray(70),
+            bg_fill: Color32::from_gray(70),
+            bg_stroke: Stroke::new(1.0, Color32::from_gray(150)), // e.g. hover over window edge or button
+            fg_stroke: Stroke::new(1.5, Color32::from_gray(240)),
+            rounding: Rounding::same(3.0),
+            expansion: 1.0,
+        },
+        active: WidgetVisuals {
+            weak_bg_fill: Color32::from_gray(55),
+            bg_fill: Color32::from_gray(55),
+            bg_stroke: Stroke::new(1.0, Color32::WHITE),
+            fg_stroke: Stroke::new(2.0, Color32::WHITE),
+            rounding: Rounding::same(2.0),
+            expansion: 1.0,
+        },
+        open: WidgetVisuals {
+            weak_bg_fill: Color32::from_gray(45),
+            bg_fill: Color32::from_gray(27),
+            bg_stroke: Stroke::new(1.0, Color32::from_gray(60)),
+            fg_stroke: Stroke::new(1.0, Color32::from_gray(210)),
+            rounding: Rounding::same(2.0),
+            expansion: 0.0,
+        },
     }
 }
