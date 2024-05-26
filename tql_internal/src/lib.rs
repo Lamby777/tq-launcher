@@ -9,14 +9,14 @@
 //!
 #![allow(unused)]
 
-use anyhow::Result;
+use anyhow::{bail, Result};
 use std::sync::OnceLock;
 
 pub use octocrab::models::repos::Release;
 
 mod paths;
 mod reqs;
-pub use reqs::fetch_releases;
+pub use reqs::{download_release, fetch_releases};
 
 const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
 
@@ -26,13 +26,20 @@ const TQ_REPO_NAME: &str = "TerraQuest";
 
 // ----------------------------------------
 
-pub fn create_instance(name: &str, version: Release) -> Result<()> {
-    // check if version exists
-    // check if name already used
-    // clone the repo into that folder
+pub fn create_instance(name: &str, release: Release) -> Result<()> {
     let instances = paths::instances_folder();
 
-    println!("Creating instance {} with version {:?}", name, version.name);
+    // check if name already used
+    if instances.join(name).exists() {
+        bail!("instance with that name already exists");
+    }
+
+    println!("Creating instance {} on release {:?}", name, &release.name);
+    println!("Downloading release...");
+
+    // download the bin into that folder
+    download_release(name, &release);
+    println!("Downloaded!");
 
     Ok(())
 }
