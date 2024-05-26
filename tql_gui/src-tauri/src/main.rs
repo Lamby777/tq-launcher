@@ -9,9 +9,17 @@ async fn fetch_versions() -> Vec<Release> {
     tql_internal::fetch_versions().await.unwrap()
 }
 
+#[tauri::command]
+async fn create_instance(name: &str, version: Release) -> Result<(), ()> {
+    tql_internal::create_instance(name, version).map_err(|_| ())
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![fetch_versions])
+        .invoke_handler(tauri::generate_handler![
+            fetch_versions,
+            create_instance
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

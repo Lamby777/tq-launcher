@@ -24,16 +24,15 @@ const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
 const TQ_REPO_OWNER: &str = "MaxineHelsel";
 const TQ_REPO_NAME: &str = "TerraQuest";
 
-// pub static SILENT: OnceLock<bool> = OnceLock::new();
-//
-// macro_rules! log {
-//     ($($arg:tt)*) => {
-//         if !SILENT.get().unwrap_or(&false) {
-//             eprintln!($($arg)*);
-//         }
-//     };
-// }
-//
-// pub struct TqlOptions {
-//     pub silent: bool,
-// }
+// ----------------------------------------
+
+pub fn create_instance(name: &str, version: Release) -> Result<()> {
+    // check if version exists
+    // check if name already used
+    // clone the repo into that folder
+    let instances = paths::instances_folder();
+
+    println!("Creating instance {} with version {:?}", name, version.name);
+
+    Ok(())
+}

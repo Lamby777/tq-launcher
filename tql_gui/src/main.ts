@@ -1,14 +1,26 @@
 import { invoke } from "@tauri-apps/api/tauri";
 
-const newinstInputE = document.querySelector("#newinst-input") as HTMLInputElement;
+const newinstNameE = document.querySelector("#newinst-name") as HTMLInputElement;
+const newinstVerE = document.querySelector("#newinst-ver") as HTMLSelectElement;
 
-const versions: string = await invoke("fetch_versions", {});
+const versions: any[] = await invoke("fetch_versions");
+
+// function populateVersions() {
+//
+// }
 
 async function createInstance() {
-    // https://tauri.app/v1/guides/features/command
-    if (newinstInputE?.value == "") return;
+    const name = newinstNameE?.value;
+    if (!name) return;
 
-    await invoke("create_instance", {});
+    if (newinstVerE?.selectedIndex === -1) return;
+
+    const version = versions[newinstVerE.selectedIndex];
+
+    await invoke("create_instance", {
+        name,
+        version,
+    });
 }
 
 document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {

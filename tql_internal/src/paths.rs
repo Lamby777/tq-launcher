@@ -14,3 +14,7 @@ pub fn launcher_folder() -> PathBuf {
 
     path
 }
+
+pub fn instances_folder() -> PathBuf {
+    launcher_folder().join("instances")
+}
