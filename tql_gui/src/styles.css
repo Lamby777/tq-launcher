@@ -50,6 +50,7 @@ h1 {
 input,
 select,
 div.instance-box,
+div#edit-panel,
 button {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -111,12 +112,14 @@ button:active {
     input,
     select,
     div.instance-box,
+    div#edit-panel,
     button {
         background-color: #0f0f0f98;
     }
 
     input,
     div.instance-box,
+    div#edit-panel,
     button {
         color: #ffffff;
     }
