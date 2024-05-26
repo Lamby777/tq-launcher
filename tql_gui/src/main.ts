@@ -10,11 +10,7 @@ const releases: Release[] = await invoke("fetch_releases");
 function main() {
     populateReleases(releases);
 
-    newInstanceBox("Hello World");
-    newInstanceBox("Hi World");
-    newInstanceBox("Yo ho ho");
-    newInstanceBox("Boingus");
-    newInstanceBox("Deez Nuggets");
+    populateInstanceRow();
 }
 
 try {
@@ -49,6 +45,14 @@ function populateReleases(releases: Release[]) {
         const option = document.createElement("option");
         option.innerText = name;
         newinstVerE.appendChild(option);
+    }
+}
+
+async function populateInstanceRow() {
+    const instances: any = await invoke("instance_names");
+
+    for (const name of instances) {
+        newInstanceBox(name);
     }
 }
 
