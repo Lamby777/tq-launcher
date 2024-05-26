@@ -23,6 +23,7 @@ where
                 continue;
             }
         };
+        let outpath = dest_folder.join(outpath);
 
         if file.is_dir() {
             println!("folder {} extracted to \"{}\"", i, outpath.display());
