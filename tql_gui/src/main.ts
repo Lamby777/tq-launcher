@@ -9,8 +9,7 @@ const releases: Release[] = await invoke("fetch_releases");
 
 function main() {
     populateReleases(releases);
-
-    populateInstanceRow();
+    repopulateInstanceRow();
 }
 
 try {
@@ -31,6 +30,8 @@ async function createInstance() {
         name,
         version,
     });
+
+    repopulateInstanceRow();
 }
 
 document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
@@ -48,7 +49,9 @@ function populateReleases(releases: Release[]) {
     }
 }
 
-async function populateInstanceRow() {
+async function repopulateInstanceRow() {
+    instListE.innerHTML = "";
+
     const instances: any = await invoke("instance_names");
 
     if (instances.length === 0) {
