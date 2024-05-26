@@ -42,6 +42,11 @@ h1 {
     text-align: center;
 }
 
+#instances {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
 input,
 select,
 div.instance-box,

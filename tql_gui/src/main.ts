@@ -12,6 +12,9 @@ function main() {
 
     newInstanceBox("Hello World");
     newInstanceBox("Hi World");
+    newInstanceBox("Yo ho ho");
+    newInstanceBox("Boingus");
+    newInstanceBox("Deez Nuggets");
 }
 
 try {
