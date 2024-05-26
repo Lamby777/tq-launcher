@@ -3,13 +3,18 @@
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+async fn fetch_versions() -> String {
+    let versions = tql_internal::fetch_versions().await.unwrap();
+    let versions = versions
+        .into_iter()
+        .map(|r| r.name.unwrap_or("Unnamed".to_string()))
+        .collect::<Vec<_>>();
+    format!("{:?}", versions.join(", "))
 }
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![fetch_versions])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

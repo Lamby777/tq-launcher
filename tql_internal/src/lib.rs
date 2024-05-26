@@ -1,4 +1,5 @@
 use anyhow::Result;
+pub use octocrab::models::repos::Release;
 use std::sync::OnceLock;
 
 mod paths;
@@ -30,7 +31,7 @@ pub fn run_game(opts: TqlOptions) -> Result<()> {
     Ok(())
 }
 
-pub async fn fetch_versions() -> Result<()> {
+pub async fn fetch_versions() -> Result<Vec<Release>> {
     reqs::fetch_versions().await
 }
 

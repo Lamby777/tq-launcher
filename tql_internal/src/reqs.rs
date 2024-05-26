@@ -5,10 +5,11 @@
 
 use anyhow::Result;
 use octocrab::models;
+use octocrab::models::repos::Release;
 
 use crate::{TQ_REPO_NAME, TQ_REPO_OWNER};
 
-pub async fn fetch_versions() -> Result<()> {
+pub async fn fetch_versions() -> Result<Vec<Release>> {
     let octo = octocrab::instance();
     let mut page = octo
         .repos(TQ_REPO_OWNER, TQ_REPO_NAME)
@@ -18,9 +19,11 @@ pub async fn fetch_versions() -> Result<()> {
         .send()
         .await?;
 
+    let mut res = vec![];
+
     loop {
         for release in &page {
-            println!("{}", release.name.as_deref().unwrap_or("Unnamed"));
+            res.push(release.clone());
         }
 
         let next = octo.get_page::<models::repos::Release>(&page.next).await?;
@@ -28,7 +31,7 @@ pub async fn fetch_versions() -> Result<()> {
         page = next;
     }
 
-    Ok(())
+    Ok(res)
 }
 
 // pub fn download_version() -> Result<()> {
