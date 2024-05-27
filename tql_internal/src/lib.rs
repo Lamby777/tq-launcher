@@ -63,7 +63,7 @@ pub fn instance_map() -> HashMap<String, InstanceInfo> {
         .expect("could not read instances folder")
         .filter_map(|entry| {
             let Ok(ref v) = entry else {
-                println!("failed to read instance folder {:?}", entry);
+                eprintln!("failed to read instance folder {:?}", entry);
                 return None;
             };
 
@@ -73,7 +73,7 @@ pub fn instance_map() -> HashMap<String, InstanceInfo> {
             }
 
             let Some(fname) = v.file_name().to_str().map(str::to_string) else {
-                println!("instance folder name has invalid chars");
+                eprintln!("instance folder name has invalid chars");
                 return None;
             };
 
