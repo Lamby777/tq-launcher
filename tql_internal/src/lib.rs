@@ -50,11 +50,7 @@ pub async fn create_instance(name: &str, release: Release) -> Result<()> {
     println!("Downloaded! Writing instance info file...");
 
     let release_id = *release.id;
-    let release_name = release.name.expect("release has no name...?");
-    let instance = InstanceInfo {
-        release_id,
-        release_name,
-    };
+    let instance = InstanceInfo { release_id };
     instance.write_info(name)?;
 
     Ok(())
