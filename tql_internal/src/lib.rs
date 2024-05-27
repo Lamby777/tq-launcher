@@ -20,6 +20,8 @@ mod reqs;
 mod zippy;
 pub use reqs::{download_release, fetch_releases};
 
+use crate::instancefile::InstanceInfo;
+
 mod consts {
     pub const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
     pub const INSTANCES_FOLDER_NAME: &str = "instances";
@@ -33,6 +35,7 @@ mod consts {
 // ----------------------------------------
 
 pub async fn create_instance(name: &str, release: Release) -> Result<()> {
+    println!("Creating instance {} on release {:?}", name, &release.name);
     let instances = paths::instances_folder();
 
     // check if name already used
@@ -40,12 +43,19 @@ pub async fn create_instance(name: &str, release: Release) -> Result<()> {
         bail!("instance with that name already exists");
     }
 
-    println!("Creating instance {} on release {:?}", name, &release.name);
     println!("Downloading release...");
-
     // download the bin into that folder
     download_release(name, &release).await?;
-    println!("Downloaded!");
+
+    println!("Downloaded! Writing instance info file...");
+
+    let release_id = *release.id;
+    let release_name = release.name.expect("release has no name...?");
+    let instance = InstanceInfo {
+        release_id,
+        release_name,
+    };
+    instance.write_info(name)?;
 
     Ok(())
 }

@@ -1,4 +1,4 @@
-use crate::{paths, Release};
+use crate::paths;
 
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
@@ -9,14 +9,17 @@ use serde::{Deserialize, Serialize};
 /// irrelevant here.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InstanceInfo {
-    pub release: Release,
+    pub release_id: u64,
+    pub release_name: String,
 }
 
-// write to toml file
-pub fn write_info_file(instance: &str, info: InstanceInfo) -> Result<()> {
-    let path = paths::instance_info_file(instance);
-    let toml = toml::to_string(&info)?;
-    std::fs::write(path, toml)?;
+impl InstanceInfo {
+    // write to toml file
+    pub fn write_info(&self, instance: &str) -> Result<()> {
+        let path = paths::instance_info_file(instance);
+        let toml = toml::to_string(&self)?;
+        std::fs::write(path, toml)?;
 
-    Ok(())
+        Ok(())
+    }
 }
