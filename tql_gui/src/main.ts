@@ -75,6 +75,12 @@ async function repopulateInstanceRow() {
 
     for (const name of instances) {
         const box = newInstanceBox(name);
+
+        const play_button = box.querySelector(".btn-play") as HTMLButtonElement;
+        play_button.onclick = () => {
+            invoke("play_instance", { name });
+        };
+
         instListE.appendChild(box);
     }
 }

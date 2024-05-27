@@ -11,6 +11,7 @@
 #![feature(let_chains)]
 
 use anyhow::{bail, Result};
+use std::fs;
 use std::sync::OnceLock;
 
 pub use octocrab::models::repos::Release;
@@ -70,4 +71,34 @@ pub fn instance_names() -> Vec<String> {
             None
         })
         .collect()
+}
+
+pub fn play_instance(name: &str) -> Result<(), &'static str> {
+    println!("Playing instance {}", name);
+
+    let instance = paths::instance_folder(name);
+    if !instance.exists() {
+        return Err("instance does not exist");
+    }
+
+    let bin = paths::executable(name).canonicalize().unwrap();
+    if !bin.exists() {
+        return Err("instance has no executable");
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+
+        // set executable bit
+        fs::set_permissions(&bin, fs::Permissions::from_mode(0o755))
+            .expect("could not set executable bit");
+    }
+
+    // run the bin
+    std::process::Command::new(bin)
+        .spawn()
+        .expect("could not run the instance");
+
+    Ok(())
 }

@@ -21,12 +21,18 @@ async fn instance_names() -> Vec<String> {
     tql_internal::instance_names()
 }
 
+#[tauri::command]
+async fn play_instance(name: &str) -> Result<(), &'static str> {
+    tql_internal::play_instance(name)
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             fetch_releases,
             create_instance,
             instance_names,
+            play_instance,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
