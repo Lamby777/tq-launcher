@@ -11,7 +11,8 @@ use anyhow::Result;
 use octocrab::models::repos::{Asset, Release};
 use octocrab::models::{self};
 
-use crate::{paths, TQ_REPO_NAME, TQ_REPO_OWNER};
+use crate::consts::*;
+use crate::paths;
 
 pub async fn fetch_releases() -> Result<Vec<Release>> {
     let octo = octocrab::instance();

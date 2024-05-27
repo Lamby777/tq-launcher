@@ -21,12 +21,15 @@ mod reqs;
 mod zippy;
 pub use reqs::{download_release, fetch_releases};
 
-const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
-const INSTANCES_FOLDER_NAME: &str = "instances";
+mod consts {
+    pub const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
+    pub const INSTANCES_FOLDER_NAME: &str = "instances";
+    pub const INSTANCE_INFO_FILE_NAME: &str = "instance.toml";
 
-// For the TerraQuest repo, not the launcher!
-const TQ_REPO_OWNER: &str = "MaxineHelsel";
-const TQ_REPO_NAME: &str = "TerraQuest";
+    // For the TerraQuest repo, not the launcher!
+    pub const TQ_REPO_OWNER: &str = "MaxineHelsel";
+    pub const TQ_REPO_NAME: &str = "TerraQuest";
+}
 
 // ----------------------------------------
 
