@@ -64,6 +64,10 @@ function populateReleases(releases: Release[]) {
     }
 }
 
+function release_name_from_id(id: string) {
+    return releases.find((r) => r.id === id)?.name;
+}
+
 async function repopulateInstanceRow() {
     instListE.innerHTML = "";
 
@@ -75,8 +79,11 @@ async function repopulateInstanceRow() {
         return;
     }
 
-    for (const [name, _info] of Object.entries(instances)) {
+    for (const [name, info] of Object.entries(instances) as any) {
         const box = newInstanceBox(name);
+
+        const verE = box.querySelector(".instance-ver") as HTMLHeadingElement;
+        verE.innerText = release_name_from_id(info?.release_id);
 
         const play_button = box.querySelector(".btn-play") as HTMLButtonElement;
         play_button.onclick = () => {
