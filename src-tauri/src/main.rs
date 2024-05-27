@@ -1,12 +1,12 @@
+// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tql_internal::Release;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-async fn fetch_releases() -> Vec<Release> {
-    tql_internal::fetch_releases().await.unwrap()
+async fn fetch_releases() -> Result<Vec<Release>, ()> {
+    tql_internal::fetch_releases().await.map_err(|_| ())
 }
 
 #[tauri::command]
