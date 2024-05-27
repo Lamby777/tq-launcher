@@ -8,11 +8,11 @@ use std::io::Cursor;
 use std::path::Path;
 
 use anyhow::Result;
-use octocrab::models::repos::{Asset, Release};
-use octocrab::models::{self};
+use octocrab::models;
+use octocrab::models::repos::Asset;
 
 use crate::consts::*;
-use crate::paths;
+use crate::{paths, Release};
 
 pub async fn fetch_releases() -> Result<Vec<Release>> {
     let octo = octocrab::instance();

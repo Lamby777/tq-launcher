@@ -7,7 +7,7 @@
 //!
 //! \- &Cherry, 2024
 //!
-#![allow(unused)]
+#![allow(unused)] // TODO remove
 #![feature(let_chains)]
 
 use anyhow::{bail, Result};
@@ -16,6 +16,7 @@ use std::sync::OnceLock;
 
 pub use octocrab::models::repos::Release;
 
+mod instancefile;
 mod paths;
 mod reqs;
 mod zippy;
