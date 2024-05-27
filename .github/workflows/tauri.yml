@@ -8,9 +8,6 @@ on:
   
 jobs:
   publish-tauri:
-    defaults:
-      run:
-        working-directory: ./tql_gui
     permissions:
       contents: write
     strategy:
