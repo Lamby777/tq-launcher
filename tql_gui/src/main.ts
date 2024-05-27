@@ -5,9 +5,11 @@ const newinstVerE = document.querySelector("#newinst-ver") as HTMLSelectElement;
 const instListE = document.querySelector("#instances") as HTMLDivElement;
 
 type Release = any;
-const releases: Release[] = await invoke("fetch_releases");
+let releases: Release[];
 
-function main() {
+async function main() {
+    releases = await invoke("fetch_releases");
+
     populateReleases(releases);
     repopulateInstanceRow();
 }
