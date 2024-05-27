@@ -67,15 +67,15 @@ function populateReleases(releases: Release[]) {
 async function repopulateInstanceRow() {
     instListE.innerHTML = "";
 
-    const instances: any = await invoke("instance_names");
+    const instances: any = await invoke("instance_map");
 
-    if (instances.length === 0) {
+    if (Object.keys(instances).length === 0) {
         const box = noInstancesBox();
         instListE.appendChild(box);
         return;
     }
 
-    for (const name of instances) {
+    for (const [name, _info] of Object.entries(instances)) {
         const box = newInstanceBox(name);
 
         const play_button = box.querySelector(".btn-play") as HTMLButtonElement;

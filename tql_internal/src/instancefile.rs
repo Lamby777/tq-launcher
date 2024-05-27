@@ -13,6 +13,13 @@ pub struct InstanceInfo {
 }
 
 impl InstanceInfo {
+    pub fn from_path(instance: &str) -> Result<Self> {
+        let path = paths::instance_info_file(instance);
+        let toml = std::fs::read_to_string(path)?;
+        let info = toml::from_str(&toml)?;
+        Ok(info)
+    }
+
     // write to toml file
     pub fn write_info(&self, instance: &str) -> Result<()> {
         let path = paths::instance_info_file(instance);

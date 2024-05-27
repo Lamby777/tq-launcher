@@ -10,6 +10,7 @@
 #![feature(let_chains)]
 
 use anyhow::{bail, Result};
+use std::collections::HashMap;
 use std::fs;
 
 pub use octocrab::models::repos::Release;
@@ -18,9 +19,8 @@ mod instancefile;
 mod paths;
 mod reqs;
 mod zippy;
+pub use instancefile::InstanceInfo;
 pub use reqs::{download_release, fetch_releases};
-
-use crate::instancefile::InstanceInfo;
 
 mod consts {
     pub const LAUNCHER_FOLDER_NAME: &str = "tq-launcher";
@@ -57,26 +57,28 @@ pub async fn create_instance(name: &str, release: Release) -> Result<()> {
 }
 
 /// Get the names of all valid instances
-pub fn instance_names() -> Vec<String> {
+pub fn instance_map() -> HashMap<String, InstanceInfo> {
     paths::instances_folder()
         .read_dir()
         .expect("could not read instances folder")
         .filter_map(|entry| {
-            if let Ok(ref v) = entry
-                && v.path().is_dir()
-            {
-                if let fname @ Some(_) =
-                    v.file_name().to_str().map(str::to_string)
-                {
-                    return fname;
-                }
-
-                println!("instance folder name has invalid chars");
-            } else {
-                println!("could not read instance: {:?}", entry);
+            let Ok(ref v) = entry else {
+                println!("failed to read instance folder {:?}", entry);
+                return None;
             };
 
-            None
+            // skip folders silently
+            if !v.path().is_dir() {
+                return None;
+            }
+
+            let Some(fname) = v.file_name().to_str().map(str::to_string) else {
+                println!("instance folder name has invalid chars");
+                return None;
+            };
+
+            let info = InstanceInfo::from_path(&fname).ok()?;
+            Some((fname, info))
         })
         .collect()
 }

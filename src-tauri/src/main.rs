@@ -2,7 +2,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tql_internal::Release;
+use std::collections::HashMap;
+
+use tql_internal::{InstanceInfo, Release};
 
 #[tauri::command]
 async fn fetch_releases() -> Result<Vec<Release>, ()> {
@@ -17,8 +19,8 @@ async fn create_instance(name: &str, version: Release) -> Result<(), ()> {
 }
 
 #[tauri::command]
-async fn instance_names() -> Vec<String> {
-    tql_internal::instance_names()
+fn instance_map() -> HashMap<String, InstanceInfo> {
+    tql_internal::instance_map()
 }
 
 #[tauri::command]
@@ -31,7 +33,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             fetch_releases,
             create_instance,
-            instance_names,
+            instance_map,
             play_instance,
         ])
         .run(tauri::generate_context!())
