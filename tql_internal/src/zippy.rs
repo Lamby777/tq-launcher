@@ -3,7 +3,7 @@
 //!
 
 use anyhow::Result;
-use std::io::{Read, Seek, Write};
+use std::io::{Read, Seek};
 use std::path::Path;
 use std::{fs, io};
 

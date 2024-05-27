@@ -7,12 +7,10 @@
 //!
 //! \- &Cherry, 2024
 //!
-#![allow(unused)] // TODO remove
 #![feature(let_chains)]
 
 use anyhow::{bail, Result};
 use std::fs;
-use std::sync::OnceLock;
 
 pub use octocrab::models::repos::Release;
 

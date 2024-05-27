@@ -3,13 +3,10 @@
 //! that be downloading versions or just fetching info.
 //!
 
-use core::panic;
 use std::io::Cursor;
-use std::path::Path;
 
 use anyhow::Result;
 use octocrab::models;
-use octocrab::models::repos::Asset;
 
 use crate::consts::*;
 use crate::{paths, Release};
