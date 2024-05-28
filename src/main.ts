@@ -7,6 +7,7 @@ const instListE = document.querySelector("#instances") as HTMLDivElement;
 
 type Release = any;
 let releases: Release[];
+let currentlyEditing: string;
 
 async function main() {
     releases = await invoke("fetch_releases");
@@ -93,16 +94,19 @@ async function repopulateInstanceRow() {
 
         const edit_button = box.querySelector(".btn-edit") as HTMLButtonElement;
         edit_button.addEventListener("click", () => {
-            edit_instance(name);
+            currentlyEditing = name;
+            edit_instance();
         });
 
         instListE.appendChild(box);
     }
 }
 
-function edit_instance(_name: string) {
-    const _cpanel = get_or_make_cpanel();
-    console.log(_cpanel); // STFU TYPESCRIPT
+function edit_instance() {
+    const cpanel = get_or_make_cpanel();
+
+    const nameE = cpanel.querySelector("#editing-inst-name") as HTMLHeadingElement;
+    nameE.innerText = currentlyEditing;
 }
 
 function get_or_make_cpanel() {
@@ -116,7 +120,11 @@ function get_or_make_cpanel() {
     const tmp = document.getElementById("cpanel-template") as HTMLTemplateElement;
     const cloned = tmp.content.cloneNode(true) as HTMLDivElement;
     instListE.parentNode!.appendChild(cloned);
-    return cloned;
+
+    const parent = instListE.parentNode!;
+    parent.appendChild(cloned);
+
+    return parent.querySelector("#cpanel") as HTMLDivElement;
 }
 
 
