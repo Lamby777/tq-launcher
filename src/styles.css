@@ -117,6 +117,11 @@ button.btn-edit {
     color: #ffffff;
 }
 
+button#btn-delete {
+    background-color: #8c0b0b;
+    color: #ffffff;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         color: #f6f6f6;

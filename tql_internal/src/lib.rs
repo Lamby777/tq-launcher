@@ -56,6 +56,18 @@ pub async fn create_instance(name: &str, release: Release) -> Result<()> {
     Ok(())
 }
 
+pub fn delete_instance(name: &str) -> Result<(), &'static str> {
+    println!("Deleting instance {}", name);
+
+    let instance = paths::instance_folder(name);
+    if !instance.exists() {
+        return Err("instance does not exist");
+    }
+
+    fs::remove_dir_all(&instance).expect("could not remove instance folder");
+    Ok(())
+}
+
 /// Get the names of all valid instances
 pub fn instance_map() -> HashMap<String, InstanceInfo> {
     paths::instances_folder()

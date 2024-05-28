@@ -13,7 +13,7 @@ async function main() {
     releases = await invoke("fetch_releases");
 
     populateReleases(releases);
-    repopulateInstanceRow();
+    await repopulateInstanceRow();
 }
 
 try {
@@ -55,6 +55,7 @@ window.addEventListener("focus", async () => {
     console.log("Window focused");
     await repopulateInstanceRow();
 });
+
 
 function populateReleases(releases: Release[]) {
     for (const version of releases) {
@@ -102,6 +103,13 @@ async function repopulateInstanceRow() {
     }
 }
 
+async function onDeletePressed() {
+    if (!currentlyEditing) return;
+
+    await invoke("delete_instance", { name: currentlyEditing });
+    await repopulateInstanceRow();
+}
+
 function edit_instance() {
     const cpanel = get_or_make_cpanel();
 
@@ -123,8 +131,13 @@ function get_or_make_cpanel() {
 
     const parent = instListE.parentNode!;
     parent.appendChild(cloned);
+    const panel = parent.querySelector("#cpanel")!;
 
-    return parent.querySelector("#cpanel") as HTMLDivElement;
+
+    const delete_button = document.getElementById("btn-delete")!;
+    delete_button.addEventListener("click", onDeletePressed);
+
+    return panel;
 }
 
 

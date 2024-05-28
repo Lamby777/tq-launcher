@@ -28,11 +28,17 @@ async fn play_instance(name: &str) -> Result<(), &'static str> {
     tql_internal::play_instance(name)
 }
 
+#[tauri::command]
+async fn delete_instance(name: &str) -> Result<(), &'static str> {
+    tql_internal::delete_instance(name)
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             fetch_releases,
             create_instance,
+            delete_instance,
             instance_map,
             play_instance,
         ])
