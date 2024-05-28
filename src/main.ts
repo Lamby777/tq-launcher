@@ -1,3 +1,4 @@
+"use strict";
 import { invoke } from "@tauri-apps/api/tauri";
 
 const newinstNameE = document.querySelector("#newinst-name") as HTMLInputElement;
@@ -86,13 +87,38 @@ async function repopulateInstanceRow() {
         verE.innerText = release_name_from_id(info?.release_id);
 
         const play_button = box.querySelector(".btn-play") as HTMLButtonElement;
-        play_button.onclick = () => {
+        play_button.addEventListener("click", () => {
             invoke("play_instance", { name });
-        };
+        });
+
+        const edit_button = box.querySelector(".btn-edit") as HTMLButtonElement;
+        edit_button.addEventListener("click", () => {
+            edit_instance(name);
+        });
 
         instListE.appendChild(box);
     }
 }
+
+function edit_instance(_name: string) {
+    const _cpanel = get_or_make_cpanel();
+    console.log(_cpanel); // STFU TYPESCRIPT
+}
+
+function get_or_make_cpanel() {
+    const existing = document.querySelector("#cpanel") as HTMLDivElement;
+    if (existing) return existing;
+
+    // if not, delete the news panel and make an edit one
+    const news = document.querySelector("#tq-news") as HTMLDivElement;
+    news.remove();
+
+    const tmp = document.getElementById("cpanel-template") as HTMLTemplateElement;
+    const cloned = tmp.content.cloneNode(true) as HTMLDivElement;
+    instListE.parentNode!.appendChild(cloned);
+    return cloned;
+}
+
 
 function noInstancesBox() {
     const tmp = document.getElementById("instance-template-none") as HTMLTemplateElement;

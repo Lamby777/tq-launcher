@@ -40,7 +40,7 @@ body .container:last-of-type {
     text-align: center;
 }
 
-div#cpanel {
+div.bottom-panel {
     display: inline;
     flex-grow: 1;
 }
@@ -69,11 +69,7 @@ h1 {
     white-space: nowrap;
 }
 
-input,
-select,
-div.instance-box,
-div#cpanel,
-button {
+.fancy-bg {
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
@@ -111,12 +107,12 @@ button:active {
     margin-right: 5px;
 }
 
-.btn-play {
+button.btn-play {
     background-color: green;
     color: #ffffff;
 }
 
-.btn-edit {
+button.btn-edit {
     background-color: rebeccapurple;
     color: #ffffff;
 }
@@ -131,19 +127,13 @@ button:active {
         color: #24c8db;
     }
 
-    input,
-    select,
-    div.instance-box,
-    div#cpanel,
-    button {
+    .fancy-bg {
         background-color: #0f0f0f98;
+        color: #ffffff;
     }
 
-    input,
-    div.instance-box,
-    div#cpanel,
-    button {
-        color: #ffffff;
+    select.fancy-bg {
+        color: initial;
     }
 
     button:active {

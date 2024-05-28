@@ -22,34 +22,40 @@
 
     <div class="container" style="margin-top: 0; padding-top: 0">
         <form class="row" id="newinst-form">
-            <input id="newinst-name" placeholder="Instance Name" />
-            <select id="newinst-ver" name="newinst-ver"></select>
+            <input id="newinst-name" class="fancy-bg" placeholder="Instance Name" />
+            <select id="newinst-ver" class="fancy-bg" name="newinst-ver"></select>
 
-            <button type="submit">Create</button>
+            <button type="submit" class="fancy-bg">Create</button>
         </form>
     </div>
 
     <div class="container">
         <div id="instances" class="row"></div>
-        <div id="cpanel" class="row">
-            <h2>Edit Instance</h2>
-            <p>(none selected)</p>
-            <!---->
+        <div id="tq-news" class="row fancy-bg bottom-panel">
+            <h2>TerraQuest News</h2>
+            <h3>News goes here</h3>
         </div>
     </div>
 </body>
 
+<template id="cpanel-template">
+    <div id="cpanel" class="row fancy-bg bottom-panel">
+        <h2>Edit Instance</h2>
+        <h3 id="editing-inst-name"></h3>
+    </div>
+</template>
+
 <template id="instance-template">
-    <div class="instance-box">
+    <div class="instance-box fancy-bg">
         <h2 class="instance-name"></h2>
         <h3 class="instance-ver"></h3>
-        <button class="btn-play">Play</button>
-        <button class="btn-edit">Edit</button>
+        <button class="btn-play fancy-bg">Play</button>
+        <button class="btn-edit fancy-bg">Edit</button>
     </div>
 </template>
 
 <template id="instance-template-none">
-    <div class="instance-box">
+    <div class="instance-box fancy-bg">
         <h2 class="instance-name">No Instances Yet!</h2>
     </div>
 </template>
