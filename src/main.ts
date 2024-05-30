@@ -43,14 +43,14 @@ document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
     createInstance();
 });
 
-let focus_debounce = false;
+let focusDebounce = false;
 // update the instance list when the window is focused
 // this is in case the user deletes an instance folder or something
 window.addEventListener("focus", async () => {
-    if (focus_debounce) return;
+    if (focusDebounce) return;
 
-    focus_debounce = true;
-    setTimeout(() => { focus_debounce = false; }, 1000);
+    focusDebounce = true;
+    setTimeout(() => { focusDebounce = false; }, 1000);
 
     console.log("Window focused");
     await repopulateInstanceRow();
@@ -67,7 +67,7 @@ function populateReleases(releases: Release[]) {
     }
 }
 
-function release_name_from_id(id: string) {
+function releaseNameFromId(id: string) {
     return releases.find((r) => r.id === id)?.name;
 }
 
@@ -86,25 +86,28 @@ async function repopulateInstanceRow() {
         const box = newInstanceBox(name);
 
         const verE = box.querySelector(".instance-ver") as HTMLHeadingElement;
-        verE.innerText = release_name_from_id(info?.release_id);
+        verE.innerText = releaseNameFromId(info?.release_id);
 
-        const play_button = box.querySelector(".btn-play") as HTMLButtonElement;
-        play_button.addEventListener("click", () => {
+        const playButton = box.querySelector(".btn-play") as HTMLButtonElement;
+        playButton.addEventListener("click", () => {
             invoke("play_instance", { name });
         });
 
-        const edit_button = box.querySelector(".btn-edit") as HTMLButtonElement;
-        edit_button.addEventListener("click", () => {
+        const editButton = box.querySelector(".btn-edit") as HTMLButtonElement;
+        editButton.addEventListener("click", () => {
             currentlyEditing = name;
-            edit_instance();
+            editInstance();
         });
 
         instListE.appendChild(box);
     }
 }
 
-async function onDeletePressed() {
-    //
+function onDeletePressed() {
+    openModal("Delete Instance", "Are you sure you want to delete this instance?", [
+        { text: "Cancel", onclick: () => { }, classes: ["btn-cancel"] },
+        { text: "Delete!", onclick: deleteCurrentInst, classes: ["btn-delconf"] },
+    ]);
 }
 
 async function deleteCurrentInst() {
@@ -113,14 +116,14 @@ async function deleteCurrentInst() {
     await repopulateInstanceRow();
 }
 
-function edit_instance() {
-    const cpanel = get_or_make_cpanel();
+function editInstance() {
+    const cpanel = getOrMakeCPanel();
 
     const nameE = cpanel.querySelector("#editing-inst-name") as HTMLHeadingElement;
     nameE.innerText = currentlyEditing;
 }
 
-function get_or_make_cpanel() {
+function getOrMakeCPanel() {
     const existing = document.querySelector("#cpanel") as HTMLDivElement;
     if (existing) return existing;
 
@@ -136,8 +139,8 @@ function get_or_make_cpanel() {
     const panel = parent.querySelector("#cpanel")!;
 
 
-    const delete_button = document.getElementById("btn-delete")!;
-    delete_button.addEventListener("click", onDeletePressed);
+    panel.querySelector("#btn-delete")!
+        .addEventListener("click", onDeletePressed);
 
     return panel;
 }
@@ -150,10 +153,39 @@ function noInstancesBox() {
 function newInstanceBox(name: string) {
     const cloned = cloneTemplate("#instance-template")!;
 
-    const name_h2 = cloned.querySelector(".instance-name") as HTMLHeadingElement;
-    name_h2.textContent = name;
+    const nameH2 = cloned.querySelector(".instance-name") as HTMLHeadingElement;
+    nameH2.textContent = name;
 
     return cloned;
+}
+
+interface ModalButtons {
+    text: string;
+    classes: string[];
+    onclick: () => void;
+}
+
+function openModal(title: string, message: string, buttons: ModalButtons[]) {
+    const cloned = cloneTemplate("#modal-template");
+    document.body.appendChild(cloned);
+
+    const modal = document.querySelector("#modal-bg")!;
+
+    modal.querySelector("#modal-title")!.textContent = title;
+    modal.querySelector("#modal-text")!.textContent = message;
+
+    for (const { text, onclick, classes } of buttons) {
+        const button = document.createElement("button");
+        button.classList.add("fancy-bg", ...classes);
+
+        button.textContent = text;
+        button.addEventListener("click", () => {
+            onclick();
+            modal.remove();
+        });
+
+        modal.querySelector("#modal-buttons")!.appendChild(button);
+    }
 }
 
 function cloneTemplate(selector: string) {
