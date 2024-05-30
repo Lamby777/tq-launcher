@@ -104,8 +104,11 @@ async function repopulateInstanceRow() {
 }
 
 async function onDeletePressed() {
-    if (!currentlyEditing) return;
+    //
+}
 
+async function deleteCurrentInst() {
+    if (!currentlyEditing) return;
     await invoke("delete_instance", { name: currentlyEditing });
     await repopulateInstanceRow();
 }
@@ -125,8 +128,7 @@ function get_or_make_cpanel() {
     const news = document.querySelector("#tq-news") as HTMLDivElement;
     news.remove();
 
-    const tmp = document.getElementById("cpanel-template") as HTMLTemplateElement;
-    const cloned = tmp.content.cloneNode(true) as HTMLDivElement;
+    const cloned = cloneTemplate("#cpanel-template")!;
     instListE.parentNode!.appendChild(cloned);
 
     const parent = instListE.parentNode!;
@@ -142,16 +144,20 @@ function get_or_make_cpanel() {
 
 
 function noInstancesBox() {
-    const tmp = document.getElementById("instance-template-none") as HTMLTemplateElement;
-    return tmp.content.cloneNode(true) as HTMLDivElement;
+    return cloneTemplate("#instance-template-none")!;
 }
 
 function newInstanceBox(name: string) {
-    const tmp = document.getElementById("instance-template") as HTMLTemplateElement;
-    const cloned = tmp.content.cloneNode(true) as HTMLDivElement;
+    const cloned = cloneTemplate("#instance-template")!;
 
     const name_h2 = cloned.querySelector(".instance-name") as HTMLHeadingElement;
     name_h2.textContent = name;
 
     return cloned;
 }
+
+function cloneTemplate(selector: string) {
+    const tmp = document.querySelector(selector) as HTMLTemplateElement;
+    return tmp.content.cloneNode(true) as HTMLElement;
+}
+

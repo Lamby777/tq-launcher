@@ -34,7 +34,7 @@ body .container:last-of-type {
 * Modal Stuff
 */
 
-.modal {
+.modal-bg {
     display: none;
     position: fixed;
     z-index: 1;
