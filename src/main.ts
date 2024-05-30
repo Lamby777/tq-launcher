@@ -167,9 +167,9 @@ interface ModalButtons {
 
 function openModal(title: string, message: string, buttons: ModalButtons[]) {
     const cloned = cloneTemplate("#modal-template");
-    document.body.appendChild(cloned);
+    document.body.prepend(cloned);
 
-    const modal = document.querySelector("#modal-bg")!;
+    const modal = document.querySelector("#modal-bg") as HTMLDivElement;
 
     modal.querySelector("#modal-title")!.textContent = title;
     modal.querySelector("#modal-text")!.textContent = message;
@@ -186,6 +186,8 @@ function openModal(title: string, message: string, buttons: ModalButtons[]) {
 
         modal.querySelector("#modal-buttons")!.appendChild(button);
     }
+
+    modal.style.display = "block";
 }
 
 function cloneTemplate(selector: string) {
