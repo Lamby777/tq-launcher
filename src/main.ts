@@ -115,6 +115,14 @@ function onDeletePressed() {
     ]);
 }
 
+function closeEditPanel() {
+    const panel = document.querySelector("#cpanel") as HTMLDivElement;
+    panel.remove();
+
+    const news = document.querySelector("#tq-news") as HTMLDivElement;
+    news.style.display = "block";
+}
+
 async function deleteCurrentInst() {
     if (!currentlyEditing) return;
     await invoke("delete_instance", { name: currentlyEditing });
@@ -129,7 +137,7 @@ function editInstance() {
 }
 
 function getOrMakeCPanel() {
-    const existing = document.querySelector("#cpanel") as HTMLDivElement;
+    const existing = document.querySelector("#cpanel")!;
     if (existing) return existing;
 
     // if not, hide the news panel and make an edit one
@@ -143,9 +151,11 @@ function getOrMakeCPanel() {
     parent.appendChild(cloned);
     const panel = parent.querySelector("#cpanel")!;
 
-
     panel.querySelector("#btn-delete")!
         .addEventListener("click", onDeletePressed);
+
+    panel.querySelector("#cpanel-x-btn")!
+        .addEventListener("click", closeEditPanel);
 
     return panel;
 }
