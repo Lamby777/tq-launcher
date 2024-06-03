@@ -125,8 +125,14 @@ function closeEditPanel() {
 
 async function deleteCurrentInst() {
     if (!currentlyEditing) return;
+
+    openModal("Deleting Instance", "Please wait...", []);
+
     await invoke("delete_instance", { name: currentlyEditing });
     await repopulateInstanceRow();
+
+    closeEditPanel();
+    closeModal();
 }
 
 function editInstance() {
@@ -201,8 +207,8 @@ function openModal(title: string, message: string, buttons: ModalButtons[]) {
 
         button.textContent = text;
         button.addEventListener("click", () => {
-            onclick();
             modal.remove();
+            onclick();
         });
 
         modal.querySelector("#modal-buttons")!.appendChild(button);
