@@ -1,8 +1,8 @@
 [package]
 name = "tql_gui"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.1.0"
+description = "Launcher for TerraQuest"
+authors = ["&Cherry"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
