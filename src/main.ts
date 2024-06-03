@@ -136,7 +136,7 @@ function getOrMakeCPanel() {
     const news = document.querySelector("#tq-news") as HTMLDivElement;
     news.remove();
 
-    const cloned = cloneTemplate("#cpanel-template")!;
+    const cloned = cloneTemplate("#cpanel-tmp")!;
     instListE.parentNode!.appendChild(cloned);
 
     const parent = instListE.parentNode!;
@@ -152,11 +152,11 @@ function getOrMakeCPanel() {
 
 
 function noInstancesBox() {
-    return cloneTemplate("#instance-template-none")!;
+    return cloneTemplate("#instance-tmp-none")!;
 }
 
 function newInstanceBox(name: string) {
-    const cloned = cloneTemplate("#instance-template")!;
+    const cloned = cloneTemplate("#instance-tmp")!;
 
     const nameH2 = cloned.querySelector(".instance-name") as HTMLHeadingElement;
     nameH2.textContent = name;
@@ -177,7 +177,7 @@ function closeModal() {
 }
 
 function openModal(title: string, message: string, buttons: ModalButtons[]) {
-    const cloned = cloneTemplate("#modal-template");
+    const cloned = cloneTemplate("#modal-tmp");
     document.body.prepend(cloned);
 
     const modal = document.querySelector("#modal-bg") as HTMLDivElement;
