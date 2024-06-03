@@ -137,6 +137,23 @@ button:active {
     margin-right: 5px;
 }
 
+.noselect {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.x-btn {
+    text-align: right;
+    font-size: 3em;
+
+    cursor: pointer;
+}
+
+#edit-instance-titlebar>* {
+    flex: 1;
+}
+
 button.btn-play {
     background-color: green;
     color: white;

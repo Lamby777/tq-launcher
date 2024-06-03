@@ -132,9 +132,9 @@ function getOrMakeCPanel() {
     const existing = document.querySelector("#cpanel") as HTMLDivElement;
     if (existing) return existing;
 
-    // if not, delete the news panel and make an edit one
+    // if not, hide the news panel and make an edit one
     const news = document.querySelector("#tq-news") as HTMLDivElement;
-    news.remove();
+    news.style.display = "none";
 
     const cloned = cloneTemplate("#cpanel-tmp")!;
     instListE.parentNode!.appendChild(cloned);
