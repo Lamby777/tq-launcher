@@ -30,10 +30,15 @@ async function createInstance() {
 
     const version = releases[newinstVerE.selectedIndex];
 
+    // show modal so the user knows it's working
+    openModal("Creating Instance", "Please wait...", []);
+
     await invoke("create_instance", {
         name,
         version,
     });
+
+    closeModal();
 
     await repopulateInstanceRow();
 }
@@ -163,6 +168,12 @@ interface ModalButtons {
     text: string;
     classes: string[];
     onclick: () => void;
+}
+
+function closeModal() {
+    const modal = document.querySelector("#modal-bg") as HTMLDivElement;
+    modal.style.display = "none";
+    modal.remove();
 }
 
 function openModal(title: string, message: string, buttons: ModalButtons[]) {
