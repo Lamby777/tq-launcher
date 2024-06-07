@@ -8,6 +8,7 @@ const instListE = document.querySelector("#instances") as HTMLDivElement;
 type Release = any;
 let releases: Release[];
 let currentlyEditing: string;
+let showEdgeBuilds = false;
 
 async function main() {
     releases = await invoke("fetch_releases");
@@ -61,10 +62,16 @@ window.addEventListener("focus", async () => {
     await repopulateInstanceRow();
 });
 
+function isEdgeBuildName(name: string) {
+    return name.includes("-");
+}
 
 function populateReleases(releases: Release[]) {
     for (const version of releases) {
         const name = version.name ?? "Unnamed";
+
+        // skip edge builds if the user has the checkbox off
+        if (!showEdgeBuilds && isEdgeBuildName(name)) continue;
 
         const option = document.createElement("option");
         option.innerText = name;
