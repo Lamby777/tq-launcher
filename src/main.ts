@@ -4,8 +4,9 @@ import { invoke } from "@tauri-apps/api/tauri";
 const newinstNameE = document.querySelector("#newinst-name") as HTMLInputElement;
 const newinstVerE = document.querySelector("#newinst-ver") as HTMLSelectElement;
 const instListE = document.querySelector("#instances") as HTMLDivElement;
-const editPanelE = document.querySelector("#cpanel") as HTMLDivElement;
-const newsE = document.querySelector("#tq-news") as HTMLDivElement;
+const editPanelE = document.querySelector("#edit-tab") as HTMLDivElement;
+const newsE = document.querySelector("#news-tab") as HTMLDivElement;
+const tabButtonsE = document.querySelector("#tab-buttons") as HTMLDivElement;
 
 type Release = any;
 let releases: Release[];
@@ -17,6 +18,9 @@ async function main() {
 
     repopulateReleases(releases);
     await repopulateInstanceRow();
+
+    // show the news tab by default
+    changeTab("btn-news-tab");
 }
 
 try {
@@ -41,6 +45,12 @@ document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
     createInstance();
 });
 
+for (const button of tabButtonsE.children) {
+    button.addEventListener("click", () => {
+        changeTab(button.id);
+    });
+}
+
 let focusDebounce = false;
 window.addEventListener("focus", async () => {
     if (focusDebounce) return;
@@ -52,6 +62,23 @@ window.addEventListener("focus", async () => {
 
     await repopulateInstanceRow();
 });
+
+function changeTab(id: string) {
+    for (const button of tabButtonsE.children) {
+        button.classList.remove("tab-btn-selected");
+    }
+
+    const selected = document.getElementById(id)!;
+    selected.classList.add("tab-btn-selected");
+
+    const tabs = document.querySelectorAll(".tab") as NodeListOf<HTMLDivElement>;
+    for (const tab of tabs) {
+        tab.style.display = "none";
+    }
+
+    const tab = document.getElementById(id.replace("btn-", ""))!;
+    tab.style.display = "block";
+}
 
 async function createInstance() {
     const name = newinstNameE?.value;
