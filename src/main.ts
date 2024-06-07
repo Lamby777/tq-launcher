@@ -4,6 +4,8 @@ import { invoke } from "@tauri-apps/api/tauri";
 const newinstNameE = document.querySelector("#newinst-name") as HTMLInputElement;
 const newinstVerE = document.querySelector("#newinst-ver") as HTMLSelectElement;
 const instListE = document.querySelector("#instances") as HTMLDivElement;
+const editPanelE = document.querySelector("#cpanel") as HTMLDivElement;
+const newsE = document.querySelector("#tq-news") as HTMLDivElement;
 
 type Release = any;
 let releases: Release[];
@@ -22,6 +24,12 @@ try {
 } catch (e) {
     console.error(e);
 }
+
+editPanelE.querySelector("#btn-delete")!
+    .addEventListener("click", onDeletePressed);
+
+editPanelE.querySelector("#cpanel-x-btn")!
+    .addEventListener("click", hideEditPanel);
 
 document.getElementById("edge-filter-check")!.addEventListener("change", (e) => {
     showEdgeBuilds = (e.target as HTMLInputElement).checked;
@@ -63,7 +71,6 @@ window.addEventListener("focus", async () => {
     focusDebounce = true;
     setTimeout(() => { focusDebounce = false; }, 1000);
 
-    console.log("Window focused");
     await repopulateInstanceRow();
 });
 
@@ -129,12 +136,9 @@ function onDeletePressed() {
     ]);
 }
 
-function closeEditPanel() {
-    const panel = document.querySelector("#cpanel") as HTMLDivElement;
-    panel.remove();
-
-    const news = document.querySelector("#tq-news") as HTMLDivElement;
-    news.style.display = "block";
+function hideEditPanel() {
+    editPanelE.style.display = "none";
+    newsE.style.display = "block";
 }
 
 async function deleteCurrentInst() {
@@ -145,39 +149,20 @@ async function deleteCurrentInst() {
     await invoke("delete_instance", { name: currentlyEditing });
     await repopulateInstanceRow();
 
-    closeEditPanel();
+    hideEditPanel();
     closeModal();
 }
 
-function editInstance() {
-    const cpanel = getOrMakeCPanel();
-
-    const nameE = cpanel.querySelector("#editing-inst-name") as HTMLHeadingElement;
-    nameE.innerText = currentlyEditing;
+function showEditPanel() {
+    editPanelE.style.display = "block";
+    newsE.style.display = "none";
 }
 
-function getOrMakeCPanel() {
-    const existing = document.querySelector("#cpanel")!;
-    if (existing) return existing;
+function editInstance() {
+    showEditPanel();
 
-    // if not, hide the news panel and make an edit one
-    const news = document.querySelector("#tq-news") as HTMLDivElement;
-    news.style.display = "none";
-
-    const cloned = cloneTemplate("#cpanel-tmp")!;
-    instListE.parentNode!.appendChild(cloned);
-
-    const parent = instListE.parentNode!;
-    parent.appendChild(cloned);
-    const panel = parent.querySelector("#cpanel")!;
-
-    panel.querySelector("#btn-delete")!
-        .addEventListener("click", onDeletePressed);
-
-    panel.querySelector("#cpanel-x-btn")!
-        .addEventListener("click", closeEditPanel);
-
-    return panel;
+    const nameE = editPanelE.querySelector("#editing-inst-name") as HTMLHeadingElement;
+    nameE.innerText = currentlyEditing;
 }
 
 

@@ -70,7 +70,7 @@ body .container:last-of-type {
     text-align: center;
 }
 
-div.bottom-panel {
+div#bottom-panel {
     display: inline;
     flex-grow: 1;
 }

@@ -35,25 +35,28 @@
 
     <div class="container" style="padding-top: 0">
         <div id="instances" class="row"></div>
-        <div id="tq-news" class="row fancy-bg bottom-panel">
-            <h2>TerraQuest News</h2>
-            <h3>News goes here</h3>
+
+        <div id="bottom-panel" class="row fancy-bg">
+            <div id="tq-news">
+                <h2>TerraQuest News</h2>
+                <h3>News goes here</h3>
+            </div>
+
+            <div id="cpanel" style="display: none">
+                <div id="edit-instance-titlebar" class="row">
+                    <span>
+                        <h2 id="editing-inst-name"></h2>
+                    </span>
+                    <h2>Edit Instance</h2>
+                    <span id="cpanel-x-btn" class="noselect x-btn">&times;</span>
+                </div>
+                <button id="btn-delete" class="fancy-bg">Delete</button>
+            </div>
         </div>
     </div>
 </body>
 
-<template id="cpanel-tmp">
-    <div id="cpanel" class="row fancy-bg bottom-panel">
-        <div id="edit-instance-titlebar" class="row">
-            <span>
-                <h2 id="editing-inst-name"></h2>
-            </span>
-            <h2>Edit Instance</h2>
-            <span id="cpanel-x-btn" class="noselect x-btn">&times;</span>
-        </div>
-        <button id="btn-delete" class="fancy-bg">Delete</button>
-    </div>
-</template>
+<template id="cpanel-tmp"> </template>
 
 <template id="instance-tmp">
     <div class="instance-box fancy-bg">
