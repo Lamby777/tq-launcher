@@ -5,8 +5,8 @@ const newinstNameE = document.querySelector("#newinst-name") as HTMLInputElement
 const newinstVerE = document.querySelector("#newinst-ver") as HTMLSelectElement;
 const instListE = document.querySelector("#instances") as HTMLDivElement;
 const editPanelE = document.querySelector("#edit-tab") as HTMLDivElement;
-const newsE = document.querySelector("#news-tab") as HTMLDivElement;
 const tabButtonsE = document.querySelector("#tab-buttons") as HTMLDivElement;
+const editTabButtonE = document.querySelector("#btn-edit-tab") as HTMLButtonElement;
 
 type Release = any;
 let releases: Release[];
@@ -31,9 +31,6 @@ try {
 
 editPanelE.querySelector("#btn-delete")!
     .addEventListener("click", onDeletePressed);
-
-editPanelE.querySelector("#cpanel-x-btn")!
-    .addEventListener("click", hideEditPanel);
 
 document.getElementById("edge-filter-check")!.addEventListener("change", (e) => {
     showEdgeBuilds = (e.target as HTMLInputElement).checked;
@@ -63,6 +60,7 @@ window.addEventListener("focus", async () => {
     await repopulateInstanceRow();
 });
 
+/// id of the element is of format "btn-<tabname>-tab"
 function changeTab(id: string) {
     for (const button of tabButtonsE.children) {
         button.classList.remove("tab-btn-selected");
@@ -164,8 +162,8 @@ function onDeletePressed() {
 }
 
 function hideEditPanel() {
-    editPanelE.style.display = "none";
-    newsE.style.display = "block";
+    editTabButtonE.style.display = "none";
+    changeTab("btn-news-tab");
 }
 
 async function deleteCurrentInst() {
@@ -181,8 +179,8 @@ async function deleteCurrentInst() {
 }
 
 function showEditPanel() {
-    editPanelE.style.display = "block";
-    newsE.style.display = "none";
+    editTabButtonE.style.display = "block";
+    changeTab("btn-edit-tab");
 }
 
 function editInstance() {
