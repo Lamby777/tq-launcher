@@ -180,6 +180,16 @@ button.btn-delconf {
     color: white;
 }
 
+button.tab-btn {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+button.tab-btn-selected {
+    background-color: #f6f6f6;
+    color: #0f0f0f;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         color: #f6f6f6;
@@ -197,6 +207,11 @@ button.btn-delconf {
 
     select.fancy-bg {
         color: initial;
+    }
+
+    button.tab-btn-selected {
+        background-color: rebeccapurple;
+        color: #f6f6f6;
     }
 
     button:active {

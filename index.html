@@ -33,25 +33,33 @@
         </div>
     </div>
 
-    <div class="container" style="padding-top: 0">
-        <div id="instances" class="row"></div>
+    <div id="instances" class="row"></div>
 
-        <div id="bottom-panel" class="row fancy-bg">
-            <div id="tq-news">
-                <h2>TerraQuest News</h2>
-                <h3>News goes here</h3>
-            </div>
+    <div id="bottom-panel" class="container row fancy-bg" style="padding-top: 0">
+        <div id="panel-tabs" class="row">
+            <button id="btn-news-tab" class="fancy-bg tab-btn tab-btn-selected">
+                News
+            </button>
+            <button id="btn-settings-tab" class="fancy-bg tab-btn">Settings</button>
+            <button id="btn-edit-tab" class="fancy-bg tab-btn" style="display: none">
+                Edit
+            </button>
+        </div>
 
-            <div id="cpanel" style="display: none">
-                <div id="edit-instance-titlebar" class="row">
-                    <span>
-                        <h2 id="editing-inst-name"></h2>
-                    </span>
-                    <h2>Edit Instance</h2>
-                    <span id="cpanel-x-btn" class="noselect x-btn">&times;</span>
-                </div>
-                <button id="btn-delete" class="fancy-bg">Delete</button>
+        <div id="tq-news">
+            <h2>TerraQuest News</h2>
+            <h3>News goes here</h3>
+        </div>
+
+        <div id="cpanel" style="display: none">
+            <div id="edit-instance-titlebar" class="row">
+                <span>
+                    <h2 id="editing-inst-name"></h2>
+                </span>
+                <h2>Edit Instance</h2>
+                <span id="cpanel-x-btn" class="noselect x-btn">&times;</span>
             </div>
+            <button id="btn-delete" class="fancy-bg">Delete</button>
         </div>
     </div>
 </body>
