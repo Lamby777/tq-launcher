@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InstanceInfo {
     pub release_id: u64,
+    pub boot_flags: Vec<String>,
 }
 
 impl InstanceInfo {
