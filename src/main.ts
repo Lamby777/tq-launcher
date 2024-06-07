@@ -13,7 +13,7 @@ let showEdgeBuilds = false;
 async function main() {
     releases = await invoke("fetch_releases");
 
-    populateReleases(releases);
+    repopulateReleases(releases);
     await repopulateInstanceRow();
 }
 
@@ -22,6 +22,11 @@ try {
 } catch (e) {
     console.error(e);
 }
+
+document.getElementById("edge-filter-check")!.addEventListener("change", (e) => {
+    showEdgeBuilds = (e.target as HTMLInputElement).checked;
+    repopulateReleases(releases);
+});
 
 async function createInstance() {
     const name = newinstNameE?.value;
@@ -66,7 +71,9 @@ function isEdgeBuildName(name: string) {
     return name.includes("-");
 }
 
-function populateReleases(releases: Release[]) {
+function repopulateReleases(releases: Release[]) {
+    newinstVerE.innerHTML = "";
+
     for (const version of releases) {
         const name = version.name ?? "Unnamed";
 
