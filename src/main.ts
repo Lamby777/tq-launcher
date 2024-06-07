@@ -36,6 +36,23 @@ document.getElementById("edge-filter-check")!.addEventListener("change", (e) => 
     repopulateReleases(releases);
 });
 
+document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    createInstance();
+});
+
+let focusDebounce = false;
+window.addEventListener("focus", async () => {
+    if (focusDebounce) return;
+
+    // update the instance list when the window is focused
+    // this is in case the user deletes an instance folder or something
+    focusDebounce = true;
+    setTimeout(() => { focusDebounce = false; }, 1000);
+
+    await repopulateInstanceRow();
+});
+
 async function createInstance() {
     const name = newinstNameE?.value;
     if (!name) return;
@@ -56,23 +73,6 @@ async function createInstance() {
 
     await repopulateInstanceRow();
 }
-
-document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    createInstance();
-});
-
-let focusDebounce = false;
-// update the instance list when the window is focused
-// this is in case the user deletes an instance folder or something
-window.addEventListener("focus", async () => {
-    if (focusDebounce) return;
-
-    focusDebounce = true;
-    setTimeout(() => { focusDebounce = false; }, 1000);
-
-    await repopulateInstanceRow();
-});
 
 function isEdgeBuildName(name: string) {
     return name.includes("-");
