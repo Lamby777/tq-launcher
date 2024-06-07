@@ -154,6 +154,11 @@ button:active {
     flex: 1;
 }
 
+input[type="checkbox"] {
+    height: 100%;
+    padding: auto;
+}
+
 button.btn-play {
     background-color: green;
     color: white;
