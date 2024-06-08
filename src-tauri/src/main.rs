@@ -29,6 +29,11 @@ async fn play_instance(name: &str) -> Result<(), &'static str> {
 }
 
 #[tauri::command]
+async fn alter_instance(flags: &str) -> Result<(), &'static str> {
+    tql_internal::alter_instance(flags)
+}
+
+#[tauri::command]
 async fn delete_instance(name: &str) -> Result<(), &'static str> {
     tql_internal::delete_instance(name)
 }
@@ -41,6 +46,7 @@ fn main() {
             delete_instance,
             instance_map,
             play_instance,
+            alter_instance,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -5,6 +5,7 @@ const newinstNameE = document.querySelector("#newinst-name") as HTMLInputElement
 const newinstVerE = document.querySelector("#newinst-ver") as HTMLSelectElement;
 const instListE = document.querySelector("#instances") as HTMLDivElement;
 const editPanelE = document.querySelector("#edit-tab") as HTMLDivElement;
+const editFormE = document.querySelector("#edit-instance-form") as HTMLFormElement;
 const tabButtonsE = document.querySelector("#tab-buttons") as HTMLDivElement;
 const editTabButtonE = document.querySelector("#btn-edit-tab") as HTMLButtonElement;
 
@@ -35,6 +36,11 @@ editPanelE.querySelector("#btn-delete")!
 document.getElementById("edge-filter-check")!.addEventListener("change", (e) => {
     showEdgeBuilds = (e.target as HTMLInputElement).checked;
     repopulateReleases(releases);
+});
+
+editFormE.addEventListener("submit", (e) => {
+    e.preventDefault();
+    submitEdits();
 });
 
 document.querySelector("#newinst-form")?.addEventListener("submit", (e) => {
@@ -77,6 +83,23 @@ function changeTab(id: string) {
     const tab = document.getElementById(id.replace("btn-", ""))!;
     tab.style.display = "block";
 }
+
+async function submitEdits() {
+    // show modal so the user knows it's working
+    openModal("Making Changes", "Please wait...", []);
+
+    const flagsE = document.querySelector("#edit-inst-flags") as HTMLInputElement;
+    const flags = flagsE.value;
+
+    await invoke("alter_instance", {
+        flags,
+    });
+
+    closeModal();
+
+    await repopulateInstanceRow();
+}
+
 
 async function createInstance() {
     const name = newinstNameE?.value;

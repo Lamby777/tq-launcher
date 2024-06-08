@@ -159,7 +159,8 @@ input[type="checkbox"] {
     padding: auto;
 }
 
-button.btn-play {
+button.btn-play,
+button.btn-save {
     background-color: green;
     color: white;
 }

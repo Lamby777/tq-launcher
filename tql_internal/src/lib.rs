@@ -34,6 +34,12 @@ mod consts {
 
 // ----------------------------------------
 
+pub fn alter_instance(flags: &str) -> Result<(), &'static str> {
+    println!("new flags: {}", flags);
+
+    Ok(())
+}
+
 pub async fn create_instance(name: &str, release: Release) -> Result<()> {
     println!("Creating instance {} on release {:?}", name, &release.name);
     let instances = paths::instances_folder();
