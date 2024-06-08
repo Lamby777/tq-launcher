@@ -29,8 +29,9 @@ async fn play_instance(name: &str) -> Result<(), &'static str> {
 }
 
 #[tauri::command]
-async fn alter_instance(flags: &str) -> Result<(), &'static str> {
-    tql_internal::alter_instance(flags)
+async fn alter_instance(name: &str, flags: &str) -> Result<(), &'static str> {
+    // TODO use a struct for options
+    tql_internal::alter_instance(name, flags)
 }
 
 #[tauri::command]

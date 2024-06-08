@@ -34,9 +34,14 @@ mod consts {
 
 // ----------------------------------------
 
-pub fn alter_instance(flags: &str) -> Result<(), &'static str> {
-    println!("new flags: {}", flags);
+pub fn alter_instance(name: &str, flags: &str) -> Result<(), &'static str> {
+    let mut instance = InstanceInfo::from_name(name).unwrap();
 
+    println!("new flags: {}", flags);
+    instance.boot_flags = shlex::split(flags).ok_or("could not parse flags")?;
+
+    // TODO rename existing folder before writing data if name changed
+    instance.write_info(name).unwrap();
     Ok(())
 }
 
@@ -98,7 +103,7 @@ pub fn instance_map() -> HashMap<String, InstanceInfo> {
                 return None;
             };
 
-            let info = InstanceInfo::from_path(&fname).ok()?;
+            let info = InstanceInfo::from_name(&fname).ok()?;
             Some((fname, info))
         })
         .collect()

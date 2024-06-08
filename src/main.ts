@@ -11,8 +11,10 @@ const editTabButtonE = document.querySelector("#btn-edit-tab") as HTMLButtonElem
 
 type Release = any;
 let releases: Release[];
-let currentlyEditing: string;
 let showEdgeBuilds = false;
+
+/// Name of the instance that is currently being edited
+let currentlyEditing: string;
 
 async function main() {
     releases = await invoke("fetch_releases");
@@ -85,6 +87,8 @@ function changeTab(id: string) {
 }
 
 async function submitEdits() {
+    const instanceName = currentlyEditing;
+
     // show modal so the user knows it's working
     openModal("Making Changes", "Please wait...", []);
 
@@ -92,6 +96,7 @@ async function submitEdits() {
     const flags = flagsE.value;
 
     await invoke("alter_instance", {
+        name: instanceName,
         flags,
     });
 
