@@ -1,6 +1,6 @@
 [package]
 name = "tq_launcher"
-version = "0.2.1"
+version = "0.3.0"
 description = "Launcher for TerraQuest"
 authors = ["&Cherry"]
 edition = "2021"
