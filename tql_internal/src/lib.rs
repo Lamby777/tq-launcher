@@ -117,10 +117,9 @@ pub fn play_instance(name: &str) -> Result<(), &'static str> {
         return Err("instance does not exist");
     }
 
-    let bin = paths::executable(name).canonicalize().unwrap();
-    if !bin.exists() {
+    let Ok(bin) = paths::executable(name).canonicalize() else {
         return Err("instance has no executable");
-    }
+    };
 
     #[cfg(unix)]
     {
