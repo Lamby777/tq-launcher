@@ -42,12 +42,13 @@ pub fn executable(instance: &str) -> PathBuf {
 }
 
 fn os_bin_name() -> String {
-    let ending = match std::env::consts::OS {
-        "macos" => "Mac OS)",
-        "windows" => "Windows).exe",
-        "linux" => "Linux)",
-        _ => unimplemented!("platform not supported"),
-    };
-
-    format!("TerraQuest ({}", ending)
+    // let ending = match std::env::consts::OS {
+    //     "macos" => "Mac OS)",
+    //     "windows" => "Windows).exe",
+    //     "linux" => "Linux)",
+    //     _ => unimplemented!("platform not supported"),
+    // };
+    //
+    // format!("TerraQuest ({}", ending)
+    "TerraQuest".to_owned()
 }
