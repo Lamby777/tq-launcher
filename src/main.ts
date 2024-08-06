@@ -17,9 +17,7 @@ let showEdgeBuilds = false;
 let currentlyEditing: string;
 
 async function main() {
-    releases = await invoke("fetch_releases");
-
-    repopulateReleases(releases);
+    await repopulateReleases();
     await repopulateInstanceRow();
 
     // show the news tab by default
@@ -35,10 +33,11 @@ try {
 editPanelE.querySelector("#btn-delete")!
     .addEventListener("click", onDeletePressed);
 
-document.getElementById("edge-filter-check")!.addEventListener("change", (e) => {
-    showEdgeBuilds = (e.target as HTMLInputElement).checked;
-    repopulateReleases(releases);
-});
+document.getElementById("edge-filter-check")!
+    .addEventListener("change", async (e) => {
+        showEdgeBuilds = (e.target as HTMLInputElement).checked;
+        await repopulateReleases();
+    });
 
 editFormE.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -131,14 +130,18 @@ function isEdgeBuildName(name: string) {
     return name.includes("-");
 }
 
-function repopulateReleases(releases: Release[]) {
+async function repopulateReleases() {
+    releases = await invoke("fetch_releases");
+
+    // skip edge builds if the user has the checkbox off
+    if (!showEdgeBuilds) {
+        releases = releases.filter((r) => !isEdgeBuildName(r.name));
+    }
+
     newinstVerE.innerHTML = "";
 
     for (const version of releases) {
         const name = version.name ?? "Unnamed";
-
-        // skip edge builds if the user has the checkbox off
-        if (!showEdgeBuilds && isEdgeBuildName(name)) continue;
 
         const option = document.createElement("option");
         option.innerText = name;

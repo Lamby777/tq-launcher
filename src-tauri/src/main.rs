@@ -12,10 +12,10 @@ async fn fetch_releases() -> Result<Vec<Release>, ()> {
 }
 
 #[tauri::command]
-async fn create_instance(name: &str, version: Release) -> Result<(), ()> {
+async fn create_instance(name: &str, version: Release) -> Result<(), String> {
     tql_internal::create_instance(name, version)
         .await
-        .map_err(|_| ())
+        .map_err(|v| v.to_string())
 }
 
 #[tauri::command]
