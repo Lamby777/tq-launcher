@@ -51,7 +51,7 @@ pub async fn create_instance(name: &str, release: Release) -> Result<()> {
 
     // check if name already used
     if instances.join(name).exists() {
-        bail!("instance with that name already exists");
+        bail!("Instance with that name already exists!");
     }
 
     println!("Downloading release...");

@@ -116,12 +116,16 @@ async function createInstance() {
     // show modal so the user knows it's working
     openModal("Creating Instance", "Please wait...", []);
 
-    await invoke("create_instance", {
-        name,
-        version,
-    });
-
-    closeModal();
+    try {
+        await invoke("create_instance", {
+            name,
+            version,
+        });
+        closeModal();
+    } catch (e: any) {
+        closeModal();
+        openModal("Error", e.toString(), [{ text: "Ok", classes: ["btn-cancel"], onclick: () => { } }]);
+    }
 
     await repopulateInstanceRow();
 }
