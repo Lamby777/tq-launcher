@@ -132,6 +132,7 @@ pub fn play_instance(name: &str) -> Result<(), &'static str> {
 
     // run the bin
     std::process::Command::new(bin)
+        .arg("windowed")
         .spawn()
         .expect("could not run the instance");
 
