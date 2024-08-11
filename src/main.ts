@@ -8,6 +8,7 @@ const editPanelE = document.querySelector("#edit-tab") as HTMLDivElement;
 const editFormE = document.querySelector("#edit-instance-form") as HTMLFormElement;
 const tabButtonsE = document.querySelector("#tab-buttons") as HTMLDivElement;
 const editTabButtonE = document.querySelector("#btn-edit-tab") as HTMLButtonElement;
+const flagsE = document.querySelector("#edit-inst-flags") as HTMLInputElement;
 
 type Release = any;
 let releases: Release[];
@@ -91,7 +92,6 @@ async function submitEdits() {
     // show modal so the user knows it's working
     openModal("Making Changes", "Please wait...", []);
 
-    const flagsE = document.querySelector("#edit-inst-flags") as HTMLInputElement;
     const flags = flagsE.value;
 
     await invoke("alter_instance", {
@@ -180,9 +180,9 @@ async function repopulateInstanceRow() {
         });
 
         const editButton = box.querySelector(".btn-edit") as HTMLButtonElement;
-        editButton.addEventListener("click", () => {
+        editButton.addEventListener("click", async () => {
             currentlyEditing = name;
-            editInstance();
+            await editInstance();
         });
 
         instListE.appendChild(box);
@@ -218,11 +218,16 @@ function showEditPanel() {
     changeTab("btn-edit-tab");
 }
 
-function editInstance() {
+async function editInstance() {
     showEditPanel();
 
     const nameE = editPanelE.querySelector("#editing-inst-name") as HTMLHeadingElement;
     nameE.innerText = currentlyEditing;
+
+    const instances: any = await invoke("instance_map");
+    const thisInstance = instances[currentlyEditing];
+
+    flagsE.value = thisInstance.boot_flags;
 }
 
 
