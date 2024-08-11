@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use crate::consts::*;
 
@@ -37,17 +37,28 @@ pub fn instance_info_file(instance: &str) -> PathBuf {
 }
 
 pub fn executable(instance: &str) -> PathBuf {
-    let bin_name = os_bin_name();
-    instance_folder(instance).join(bin_name)
+    let bin_folder = instance_folder(instance);
+    let bin_name = os_bin_name(&bin_folder);
+    bin_folder.join(bin_name)
 }
 
-fn os_bin_name() -> String {
-    let ending = match std::env::consts::OS {
-        "macos" => "Mac OS)",
-        "windows" => "Windows).exe",
-        "linux" => "Linux)",
+/// Match some executable in the folder based on the platform
+///
+/// Not sure which file gets picked if there are multiple
+/// executables in the folder.
+///
+/// Maxine said to just hope that doesn't happen. :P
+fn os_bin_name(dir: &Path) -> PathBuf {
+    let wildcard = match std::env::consts::OS {
+        "macos" => "*.command",
+        "windows" => "*.exe",
+        "linux" => "*.x86_64",
         _ => unimplemented!("platform not supported"),
     };
 
-    format!("TerraQuest ({}", ending)
+    let file = file_matcher::FileNamed::wildmatch(wildcard)
+        .within(dir)
+        .find();
+
+    ribbons::unwrap_fmt!(file, "no executable found in folder: {:?}", dir)
 }

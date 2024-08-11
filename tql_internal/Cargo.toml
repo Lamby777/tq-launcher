@@ -6,8 +6,10 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.86"
 dirs = "5.0.1"
+file-matcher = "0.7.0"
 octocrab = "0.38.0"
 reqwest = "0.12.4"
+ribbons = "0.1.2"
 serde = { version = "1.0.203", features = ["derive"] }
 shlex = "1.3.0"
 tokio = { version = "1.37.0", features = ["macros", "rt-multi-thread"] }
