@@ -112,8 +112,8 @@ pub fn instance_map() -> HashMap<String, InstanceInfo> {
 pub fn play_instance(name: &str) -> Result<(), &'static str> {
     println!("Playing instance {}", name);
 
-    let instance = paths::instance_folder(name);
-    if !instance.exists() {
+    let folder_path = paths::instance_folder(name);
+    if !folder_path.exists() {
         return Err("instance does not exist");
     }
 
@@ -131,8 +131,10 @@ pub fn play_instance(name: &str) -> Result<(), &'static str> {
     }
 
     // run the bin
+    let instance = InstanceInfo::from_name(name).unwrap();
+
     std::process::Command::new(bin)
-        .arg("windowed")
+        .args(&instance.boot_flags)
         .spawn()
         .expect("could not run the instance");
 
